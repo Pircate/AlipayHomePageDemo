@@ -1,0 +1,6 @@
+framework module AYNavigationBar {
+  umbrella header "AYNavigationBar-umbrella.h"
+
+  export *
+  module * { export * }
+}
