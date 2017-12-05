@@ -58,12 +58,12 @@ class HomeCommonFeatureView: UIView {
             btn.snp.makeConstraints({ (make) in
                 make.top.equalTo(contentView)
                 make.left.equalTo(contentView.snp.left).offset(itemWidth * CGFloat(index))
-                make.size.equalTo(CGSize(width: itemWidth, height: itemWidth))
+                make.size.equalTo(CGSize(width: itemWidth, height: 70))
             })
             
             label.snp.makeConstraints({ (make) in
                 make.centerX.equalTo(btn.snp.centerX)
-                make.top.equalTo(btn.snp.bottom).offset(-15)
+                make.top.equalTo(btn.snp.bottom)
             })
         }
     }
