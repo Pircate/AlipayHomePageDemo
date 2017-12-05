@@ -117,10 +117,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if collectionView.frame.origin.y > -64 {
                     let alpha = -collectionView.frame.origin.y / 64
                     headerView.contentView.alpha = 1 - alpha
-                    updateNavigationItem(flag: false)
+                    
+                }
+                if collectionView.frame.origin.y < -64 {
+                    updateNavigationItem(flag: true)
                 }
                 else {
-                    updateNavigationItem(flag: true)
+                    updateNavigationItem(flag: false)
                 }
             }
             else {
