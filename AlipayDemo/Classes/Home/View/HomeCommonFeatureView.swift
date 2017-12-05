@@ -63,7 +63,7 @@ class HomeCommonFeatureView: UIView {
             
             label.snp.makeConstraints({ (make) in
                 make.centerX.equalTo(btn.snp.centerX)
-                make.top.equalTo(btn.snp.bottom).offset(-10)
+                make.top.equalTo(btn.snp.bottom).offset(-15)
             })
         }
     }

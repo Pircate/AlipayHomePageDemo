@@ -45,11 +45,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     lazy var collectionView: UICollectionView = {
+        let itemWidth = (kScreenWidth - 180) / 4.0
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 20
         flowLayout.minimumInteritemSpacing = 40
+        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 20)
         flowLayout.sectionInset = UIEdgeInsetsMake(10, 30, 10, 30)
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 320), collectionViewLayout: flowLayout)
+        let height = (itemWidth + 20) * 3 + 160
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: height), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -66,8 +69,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.ay_navigationBar.frame.maxY), style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.contentInset = UIEdgeInsetsMake(320, 0, 0, 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(320, 0, 0, 0)
+        let itemWidth = (kScreenWidth - 180) / 4.0
+        let height = (itemWidth + 20) * 3 + 160
+        tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(height, 0, 0, 0)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -105,8 +110,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentOffset" {
-            if tableView.contentOffset.y + 320 > 0 {
-                collectionView.frame.origin.y = -(tableView.contentOffset.y + 320)
+            let itemWidth = (kScreenWidth - 180) / 4.0
+            let height = (itemWidth + 20) * 3 + 160
+            if tableView.contentOffset.y + height > 0 {
+                collectionView.frame.origin.y = -(tableView.contentOffset.y + height)
                 if collectionView.frame.origin.y > -64 {
                     let alpha = -collectionView.frame.origin.y / 64
                     headerView.contentView.alpha = 1 - alpha
@@ -214,11 +221,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = (kScreenWidth - 180) / 4.0
-        return CGSize(width: itemWidth, height: itemWidth + 20)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: kScreenWidth, height: 100)
     }
