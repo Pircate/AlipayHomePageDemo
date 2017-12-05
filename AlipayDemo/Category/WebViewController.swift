@@ -2,7 +2,7 @@
 //  WebViewController.swift
 //  iWeeB
 //
-//  Created by 高翔 on 2017/12/1.
+//  Created by gaoX on 2017/12/1.
 //  Copyright © 2017年 GaoX. All rights reserved.
 //
 
@@ -104,7 +104,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         view.addSubview(self.progressView)
         
         self.registerNavigationBar()
-        self.ay_navigationBar.backgroundColor = .orange
+        self.ay_navigationBar.backgroundColor = .global
         self.ay_navigationItem.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     

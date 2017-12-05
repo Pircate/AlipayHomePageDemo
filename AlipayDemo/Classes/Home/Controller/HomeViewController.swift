@@ -2,7 +2,7 @@
 //  HomeViewController.swift
 //  AlipayDemo
 //
-//  Created by 高翔 on 2017/12/4.
+//  Created by gaoX on 2017/12/4.
 //  Copyright © 2017年 adinnet. All rights reserved.
 //
 
@@ -235,7 +235,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 30
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

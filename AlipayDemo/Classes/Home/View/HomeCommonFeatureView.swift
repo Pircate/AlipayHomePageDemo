@@ -2,7 +2,7 @@
 //  HomeCommonFeatureView.swift
 //  AlipayDemo
 //
-//  Created by 高翔 on 2017/12/5.
+//  Created by gaoX on 2017/12/5.
 //  Copyright © 2017年 adinnet. All rights reserved.
 //
 

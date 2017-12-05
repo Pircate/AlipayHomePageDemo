@@ -2,7 +2,7 @@
 //  AlipayDemoBridging.h
 //  AlipayDemo
 //
-//  Created by 高翔 on 2017/12/4.
+//  Created by gaoX on 2017/12/4.
 //  Copyright © 2017年 adinnet. All rights reserved.
 //
 
