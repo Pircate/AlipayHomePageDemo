@@ -1,7 +1,7 @@
 //
 //  AYNavigationBar.m
 //
-//  Created by 高翔 on 2017/9/20.
+//  Created by gaoX on 2017/9/20.
 //  Copyright © 2017年 adinnet. All rights reserved.
 //
 
@@ -582,8 +582,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 {
     if (!_largeTitleLabel) {
         _largeTitleLabel = [[UILabel alloc] init];
-        CGRect fromFrame = CGRectMake(kAYNavigationBarScreenWidth / 2 - 18.f, -contentViewHeight, 36.f, contentViewHeight);
-        _largeTitleLabel.layer.frame = fromFrame;
         _largeTitleLabel.alpha = 0.f;
         _largeTitleLabel.textColor = [UIColor darkTextColor];
         _largeTitleLabel.font = [UIFont boldSystemFontOfSize:32.f];
@@ -607,24 +605,22 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 
 - (void)ay_showLargeTitle:(BOOL)show
 {
-    if (_largeTitleView.hidden != show) {
-        return;
-    }
     if (show) {
         _largeTitleView.hidden = NO;
         _largeTitleLabel.attributedText = [[NSAttributedString alloc] initWithString:self.navigationItem.title ?: @"" attributes:self.largeTitleTextAttributes];
+        
+        _largeTitleLabel.frame = CGRectMake(16.f, 0.f, kAYNavigationBarScreenWidth - 32.f, CGRectGetHeight(_largeTitleView.frame));
         [UIView animateWithDuration:AYNavigationBarShowLargeTitleViewDuration animations:^{
             _navigationItem.titleLabel.alpha = 0.f;
             _largeTitleLabel.alpha = 1.f;
-            CGRect toFrame = CGRectMake(16.f, 0.f, kAYNavigationBarScreenWidth - 32.f, CGRectGetHeight(_largeTitleView.frame));
-            _largeTitleLabel.frame = toFrame;
-            _largeTitleLabel.layer.frame = toFrame;
         }];
     }
     else {
-        _navigationItem.titleLabel.alpha = 1.f;
-        _largeTitleLabel.alpha = 0.f;
         _largeTitleView.hidden = YES;
+        [UIView animateWithDuration:AYNavigationBarShowLargeTitleViewDuration animations:^{
+            _navigationItem.titleLabel.alpha = 1.f;
+            _largeTitleLabel.alpha = 0.f;
+        }];
     }
 }
 
@@ -746,13 +742,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 #pragma mark - public
 - (void)registerNavigationBar
 {
-    if (!self.ay_navigationBar) {
-        self.ay_navigationBar = [[AYNavigationBar alloc] initWithIdentifier:NSStringFromClass(self.class)];
-    }
-    if (!self.ay_navigationItem) {
-        self.ay_navigationItem = [[AYNavigationItem alloc] init];
-    }
-    self.ay_navigationBar.navigationItem = self.ay_navigationItem;
     if (self.navigationItem.title) {
         self.ay_navigationItem.title = self.navigationItem.title;
     }
@@ -823,7 +812,13 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 #pragma mark - getter & setter
 - (AYNavigationBar *)ay_navigationBar
 {
-    return objc_getAssociatedObject(self, _cmd);
+    AYNavigationBar *navigationBar = objc_getAssociatedObject(self, _cmd);
+    if (!navigationBar) {
+        navigationBar = [[AYNavigationBar alloc] initWithIdentifier:NSStringFromClass(self.class)];
+        objc_setAssociatedObject(self, @selector(ay_navigationBar), navigationBar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    navigationBar.navigationItem = self.ay_navigationItem;
+    return navigationBar;
 }
 
 - (void)setAy_navigationBar:(AYNavigationBar *)ay_navigationBar
