@@ -86,6 +86,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         let headerView = HomeCommonFeatureView(frame: .zero)
         return headerView
     }()
+    
+    lazy var searchButton: UIButton = {
+        let searchBtn = UIButton(type: .custom)
+        searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 24)
+        searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .normal)
+        searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .highlighted)
+        return searchBtn
+    }()
 
     // MARK: - life cycle
     override func viewDidLoad() {
@@ -195,14 +203,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             ay_navigationItem.titleView = nil
         }
         else {
-            let searchBtn = UIButton(type: .custom)
-            searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 24)
-            searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .normal)
-            searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .highlighted)
-            ay_navigationItem.titleView = searchBtn
-            ay_navigationItem.titleViewStyle = .automatic
-            
             ay_navigationItem.leftBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+            ay_navigationItem.titleView = searchButton
+            ay_navigationItem.titleViewStyle = .automatic
         }
     }
     

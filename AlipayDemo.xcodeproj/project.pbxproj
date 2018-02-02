@@ -593,12 +593,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BDD68D98V;
 				INFOPLIST_FILE = AlipayDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.adinnet.AlipayDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.adinnet.AlipayDemo-gx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = /Users/gaoxiang/Desktop/Demo/AlipayDemo/AlipayDemo/OCBridging/AlipayDemoBridging.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AlipayDemo/OCBridging/AlipayDemoBridging.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -610,12 +611,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3BDD68D98V;
 				INFOPLIST_FILE = AlipayDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.adinnet.AlipayDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.adinnet.AlipayDemo-gx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = /Users/gaoxiang/Desktop/Demo/AlipayDemo/AlipayDemo/OCBridging/AlipayDemoBridging.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AlipayDemo/OCBridging/AlipayDemoBridging.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

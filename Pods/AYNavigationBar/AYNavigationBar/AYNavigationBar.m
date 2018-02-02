@@ -10,348 +10,89 @@
 
 #import <objc/runtime.h>
 
-CGFloat contentViewHeight = 44.f;
+const CGFloat AYNavigationBarDefaultHeight = 44.f;
 const CGFloat AYNavigationBarLargeTitleMinHeight = 49.f;
 const CGFloat AYNavigationBarPortraitHeight = 44.f;
 const CGFloat AYNavigationBarLandscapeHeight = 32.f;
 const CGFloat AYNavigationBarShadowViewHeight = 1.f / 3;
-const CGFloat AYNavigationBarBackButtonTitleMaxWidth = 80.f;
 const CGFloat AYNavigationBarIPhoneXFixedSpaceWidth = 56.f;
-const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 
 #define kAYNavigationBarIsIPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 #define kAYNavigationBarStatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
 #define kAYNavigationBarScreenWidth [UIScreen mainScreen].bounds.size.width
 
-#define kAYNavigationBarFrame CGRectMake(0, kAYNavigationBarStatusBarHeight, kAYNavigationBarScreenWidth, contentViewHeight)
-#define kAYBarContentViewFrame CGRectMake(0, 0, kAYNavigationBarScreenWidth, contentViewHeight)
+#define kAYNavigationBarDefaultFrame CGRectMake(0, kAYNavigationBarStatusBarHeight, kAYNavigationBarScreenWidth, AYNavigationBarDefaultHeight)
 
 #pragma mark - AYNavigationItem
 @interface AYNavigationItem ()
 
-@property (nonatomic, strong) UILabel *titleLabel;
-
-@property (nonatomic, assign) CGRect titleViewFrame;
-@property (nonatomic, assign) CGFloat leftOffset;
-@property (nonatomic, assign) CGFloat rightOffset;
+@property (nonatomic, strong) AYNavigationBarContentView *contentView;
 
 @end
 
 @implementation AYNavigationItem
 
-- (instancetype)init
-{
-    self = [super initWithFrame:kAYBarContentViewFrame];
-    if (self) {
-        
-        _titleViewStyle = AYNavigationBarTitleViewStyleDefault;
-        
-        [self ay_addSubviews];
-    }
-    return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    [self updateLeftBarButtonFrame];
-    [self updateLeftBarItemsFrame];
-    [self updateRightBarButtonFrame];
-    [self updateRightBarItemsFrame];
-    [self updateTitleFrame];
-}
-
-#pragma mark - private
-- (void)ay_addSubviews
-{
-    [self ay_addTitleLabel];
-}
-
-- (void)ay_addTitleLabel
-{
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.hidden = YES;
-        _titleLabel.font = [UIFont boldSystemFontOfSize:17];
-        _titleLabel.textColor = [UIColor darkTextColor];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:_titleLabel];
-    }
-}
-
-- (void)updateTitleLabelFrame
-{
-    CGFloat offset = MAX(self.leftOffset, self.rightOffset) * 2;
-    _titleLabel.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame) - offset, contentViewHeight);
-    _titleLabel.center = CGPointMake(CGRectGetWidth(self.frame) / 2, CGRectGetHeight(self.frame) / 2);
-}
-
-- (void)updateTitleViewFrame
-{
-    if (self.titleViewStyle == AYNavigationBarTitleViewStyleAutomatic) {
-        CGFloat titleViewMaxWidth = CGRectGetWidth(self.frame) - self.leftOffset - self.rightOffset;
-        CGRect frame = self.titleViewFrame;
-        frame.size.height = frame.size.height <= contentViewHeight ? frame.size.height : contentViewHeight;
-        frame.size.width = frame.size.width <= titleViewMaxWidth ? frame.size.width : titleViewMaxWidth;
-        frame.origin.x = self.leftOffset;
-        frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-        _titleView.frame = frame;
-    }
-    else {
-        CGFloat offset = MAX(self.leftOffset, self.rightOffset) * 2;
-        CGFloat titleViewMaxWidth = CGRectGetWidth(self.frame) - offset;
-        CGRect frame = self.titleViewFrame;
-        frame.size.height = frame.size.height <= contentViewHeight ? frame.size.height : contentViewHeight;
-        frame.size.width = frame.size.width <= titleViewMaxWidth ? frame.size.width : titleViewMaxWidth;
-        _titleView.frame = frame;
-        _titleView.center = CGPointMake(self.center.x, CGRectGetHeight(self.frame) / 2);
-    }
-}
-
-- (void)updateTitleFrame
-{
-    if (_titleView) {
-        [self updateTitleViewFrame];
-    }
-    else {
-        [self updateTitleLabelFrame];
-    }
-}
-
-- (void)removeAllLeftBarItems
-{
-    if ([self.subviews containsObject:_leftBarButton]) {
-        [_leftBarButton removeFromSuperview];
-    }
-    if (_leftBarButton) {
-        _leftBarButton = nil;
-    }
-    [_leftBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
-}
-
-- (void)removeAllRightBarItems
-{
-    if ([self.subviews containsObject:_rightBarButton]) {
-        [_rightBarButton removeFromSuperview];
-    }
-    if (_rightBarButton) {
-        _rightBarButton = nil;
-    }
-    [_rightBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
-}
-
-- (void)updateLeftBarButtonFrame
-{
-    CGRect frame = _leftBarButton.frame;
-    frame.origin.x = 0.f;
-    frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-    frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-    _leftBarButton.frame = frame;
-}
-
-- (void)updateLeftBarItemsFrame
-{
-    if (_leftBarItems.count > 0) {
-        __block CGFloat lastItemWidth = 0.f;
-        [_leftBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            CGRect frame = obj.frame;
-            frame.origin.x = lastItemWidth;
-            frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-            frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-            lastItemWidth += frame.size.width;
-            obj.frame = frame;
-        }];
-    }
-}
-
-- (void)updateRightBarButtonFrame
-{
-    CGRect frame = _rightBarButton.frame;
-    frame.origin.x = CGRectGetWidth(self.bounds) - frame.size.width;
-    frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-    frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-    _rightBarButton.frame = frame;
-}
-
-- (void)updateRightBarItemsFrame
-{
-    if (_rightBarItems.count > 0) {
-        __block CGFloat lastItemWidth = 0.f;
-        [_rightBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            CGRect frame = obj.frame;
-            frame.origin.x = CGRectGetWidth(self.frame) - frame.size.width - lastItemWidth;
-            frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-            frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-            lastItemWidth = lastItemWidth + frame.size.width;
-            obj.frame = frame;
-        }];
-    }
-}
-
 #pragma mark - getter & setter
+- (AYNavigationBarContentView *)contentView
+{
+    if (!_contentView) {
+        _contentView = [[AYNavigationBarContentView alloc] init];
+    }
+    return _contentView;
+}
+
 - (void)setTitleViewStyle:(AYNavigationBarTitleViewStyle)titleViewStyle
 {
     _titleViewStyle = titleViewStyle;
-    
-    [self updateTitleViewFrame];
+    self.contentView.titleViewStyle = titleViewStyle;
 }
 
 - (void)setTitle:(NSString *)title
 {
-    _title = title;
-    _titleLabel.hidden = NO;
-    _titleLabel.attributedText = [[NSAttributedString alloc] initWithString:title ?: @"" attributes:self.titleTextAttributes];
-    
-    if (title) {
-        if ([self.subviews containsObject:_titleView]) {
-            [_titleView removeFromSuperview];
-        }
-        if (_titleView) {
-            _titleView = nil;
-        }
-        [self updateTitleLabelFrame];
-    }
+    _title = [title copy];
+    self.contentView.title = title;
 }
 
 - (void)setTitleView:(UIView *)titleView
 {
-    [_titleView removeFromSuperview];
-    self.titleViewFrame = titleView.frame;
     _titleView = titleView;
-    
-    if (titleView) {
-        _titleLabel.hidden = YES;
-        
-        [self updateTitleViewFrame];
-        [self addSubview:_titleView];
-    }
+    self.contentView.titleView = titleView;
 }
 
 - (void)setTitleTextAttributes:(NSDictionary<NSAttributedStringKey,id> *)titleTextAttributes
 {
     _titleTextAttributes = [titleTextAttributes copy];
-    
-    if (self.title) {
-        _titleLabel.attributedText = [[NSAttributedString alloc] initWithString:self.title attributes:titleTextAttributes];
-    }
+    self.contentView.titleTextAttributes = titleTextAttributes;
 }
 
 - (void)setLeftBarButton:(UIButton *)leftBarButton
 {
-    [_leftBarButton removeFromSuperview];
     _leftBarButton = leftBarButton;
-    
-    if (leftBarButton) {
-        
-        [_leftBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
-        }];
-        _leftBarItems = @[];
-        
-        CGRect frame = leftBarButton.frame;
-        frame.origin.x = 0.f;
-        frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-        frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-        _leftBarButton.frame = frame;
-        
-        [self addSubview:_leftBarButton];
-    }
-    [self updateTitleFrame];
+    self.contentView.leftBarButton = leftBarButton;
 }
 
 - (void)setLeftBarItems:(NSArray<UIView *> *)leftBarItems
 {
-    [self removeAllLeftBarItems];
     _leftBarItems = [leftBarItems copy];
-    
-    if (leftBarItems.count > 0) {
-        __block CGFloat lastItemWidth = 0.f;
-        [leftBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            CGRect frame = obj.frame;
-            frame.origin.x = lastItemWidth;
-            frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-            frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-            lastItemWidth += frame.size.width;
-            obj.frame = frame;
-            [self addSubview:obj];
-        }];
-    }
-    [self updateTitleFrame];
+    self.contentView.leftBarItems = leftBarItems;
 }
 
 - (void)setRightBarButton:(UIButton *)rightBarButton
 {
-    [_rightBarButton removeFromSuperview];
     _rightBarButton = rightBarButton;
-    
-    if (rightBarButton) {
-        
-        [_rightBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
-        }];
-        _rightBarItems = @[];
-        
-        CGRect frame = rightBarButton.frame;
-        frame.origin.x = CGRectGetWidth(self.bounds) - frame.size.width;
-        frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-        frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-        _rightBarButton.frame = frame;
-        [self addSubview:_rightBarButton];
-    }
-    [self updateTitleFrame];
+    self.contentView.rightBarButton = rightBarButton;
 }
 
 - (void)setRightBarItems:(NSArray<UIView *> *)rightBarItems
 {
-    [self removeAllRightBarItems];
     _rightBarItems = [rightBarItems copy];
-    
-    if (rightBarItems.count > 0) {
-        __block CGFloat lastItemWidth = 0.f;
-        [rightBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            CGRect frame = obj.frame;
-            frame.origin.x = CGRectGetWidth(self.frame) - frame.size.width - lastItemWidth;
-            frame.size.height = frame.size.height > contentViewHeight ? contentViewHeight : frame.size.height;
-            frame.origin.y = (contentViewHeight - frame.size.height) / 2;
-            lastItemWidth += frame.size.width;
-            obj.frame = frame;
-            [self addSubview:obj];
-        }];
-    }
-    [self updateTitleFrame];
+    self.contentView.rightBarItems = rightBarItems;
 }
 
-- (CGFloat)leftOffset
+- (void)setAlpha:(CGFloat)alpha
 {
-    _leftOffset = 0.f;
-    if (_leftBarButton) {
-        _leftOffset = CGRectGetWidth(_leftBarButton.frame);
-    }
-    if (_leftBarItems.count > 0) {
-        [_leftBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            _leftOffset += CGRectGetWidth(obj.frame);
-        }];
-    }
-    return _leftOffset;
-}
-
-- (CGFloat)rightOffset
-{
-    _rightOffset = 0.f;
-    if (_rightBarButton) {
-        _rightOffset = CGRectGetWidth(_rightBarButton.frame);
-    }
-    if (_rightBarItems.count > 0) {
-        [_rightBarItems enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            _rightOffset += CGRectGetWidth(obj.frame);
-        }];
-    }
-    return _rightOffset;
+    _alpha = alpha;
+    self.contentView.alpha = alpha;
 }
 
 @end
@@ -376,9 +117,9 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
 {
-    self = [super initWithFrame:kAYNavigationBarFrame];
+    self = [super initWithFrame:kAYNavigationBarDefaultFrame];
     if (self) {
-        
+
         _identifier = identifier;
         
         [self ay_addObserver];
@@ -396,13 +137,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 }
 
 #pragma mark - over write
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-
-    [self ay_layoutSubviews];
-}
-
 - (void)setFrame:(CGRect)frame
 {
     frame.origin.x = 0.f;
@@ -433,9 +167,7 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
     if (hidden) {
         if (animated) {
             [UIView animateWithDuration:UINavigationControllerHideShowBarDuration animations:^{
-                CGRect frame = self.frame;
-                frame.origin.y = -self.bounds.size.height;
-                self.frame = frame;
+                [self ay_layoutIfNeeded];
             } completion:^(BOOL finished) {
                 if (finished) {
                     if (self.frame.origin.y < 0) {
@@ -445,9 +177,7 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
             }];
         }
         else {
-            CGRect frame = self.frame;
-            frame.origin.y = -self.bounds.size.height;
-            self.frame = frame;
+            [self ay_layoutIfNeeded];
             [super setHidden:hidden];
         }
     }
@@ -455,11 +185,11 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
         [super setHidden:hidden];
         if (animated) {
             [UIView animateWithDuration:UINavigationControllerHideShowBarDuration animations:^{
-                self.frame = kAYNavigationBarFrame;
+                [self ay_layoutIfNeeded];
             }];
         }
         else {
-            self.frame = kAYNavigationBarFrame;
+            [self ay_layoutIfNeeded];
         }
     }
 }
@@ -482,35 +212,36 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 
 - (void)ay_layoutIfNeeded
 {
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
+    [self ay_layoutSubviews];
 }
 
 - (void)ay_layoutSubviews
 {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    BOOL isLandscape = UIInterfaceOrientationIsLandscape(orientation);
-    CGFloat largeTitleViewHeight = 0.f;
-    if (_prefersLargeTitles && !isLandscape) {
-        largeTitleViewHeight = [self ay_largeTitleViewHeight];
-    }
-    contentViewHeight = isLandscape ? AYNavigationBarLandscapeHeight : AYNavigationBarPortraitHeight;
-    CGRect barFrame = kAYNavigationBarFrame;
+    BOOL isLandscape = [self ay_isLandscape];
+    CGFloat largeTitleViewHeight = (self.prefersLargeTitles && !isLandscape) ? [self ay_largeTitleViewHeight] : 0.f;
+    
     CGFloat statusBarHeight = isLandscape ? 0.f : (kAYNavigationBarIsIPhoneX ? 44.f : 20.f);
-    barFrame.origin.y = statusBarHeight;
-    barFrame.size.height += largeTitleViewHeight;
+    CGFloat contentHeight = isLandscape ? AYNavigationBarLandscapeHeight : AYNavigationBarPortraitHeight;
+    if (!isLandscape) contentHeight += self.contentOffset;
+    
+    CGRect barFrame = CGRectMake(0, statusBarHeight + self.verticalOffset, kAYNavigationBarScreenWidth, contentHeight + largeTitleViewHeight);
     if (self.willHidden) barFrame.origin.y = -barFrame.size.height;
     self.frame = barFrame;
     
-    _backgroundView.frame = [self barBackgroundFrame];
-    _backgroundImageView.frame = _backgroundView.bounds;
-    _shadowImageView.frame = [self barShadowViewFrame];
-    _visualEffectView.frame = _backgroundView.bounds;
+    self.backgroundView.frame = [self barBackgroundFrame];
+    self.backgroundImageView.frame = self.backgroundView.bounds;
+    self.shadowImageView.frame = [self barShadowViewFrame];
+    self.visualEffectView.frame = self.backgroundView.bounds;
     
-    _navigationItem.frame = [self barContentFrame];
+    CGRect contentFrame = CGRectMake(0, 0, kAYNavigationBarScreenWidth, contentHeight);
+    if ([self ay_needsFixedSpace]) {
+        contentFrame.origin.x = AYNavigationBarIPhoneXFixedSpaceWidth;
+        contentFrame.size.width = kAYNavigationBarScreenWidth - AYNavigationBarIPhoneXFixedSpaceWidth * 2;
+    }
+    self.navigationItem.contentView.frame = contentFrame;
     
-    _largeTitleView.frame = CGRectMake(0, contentViewHeight, CGRectGetWidth(self.frame), largeTitleViewHeight);
-    [self ay_showLargeTitle:(!isLandscape && _prefersLargeTitles)];
+    self.largeTitleView.frame = CGRectMake(0, CGRectGetMaxY(contentFrame), CGRectGetWidth(self.frame), largeTitleViewHeight);
+    [self ay_showLargeTitle:(!isLandscape && self.prefersLargeTitles)];
 }
 
 - (CGRect)barBackgroundFrame
@@ -521,16 +252,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 - (CGRect)barShadowViewFrame
 {
     return CGRectMake(0, CGRectGetHeight(_backgroundView.frame), CGRectGetWidth(_backgroundView.frame), AYNavigationBarShadowViewHeight);
-}
-
-- (CGRect)barContentFrame
-{
-    CGRect frame = kAYBarContentViewFrame;
-    if ([self ay_needsFixedSpace]) {
-        frame.origin.x = AYNavigationBarIPhoneXFixedSpaceWidth;
-        frame.size.width = kAYNavigationBarScreenWidth - AYNavigationBarIPhoneXFixedSpaceWidth * 2;
-    }
-    return frame;
 }
 
 - (void)ay_addBackgroundView
@@ -589,11 +310,15 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
     }
 }
 
+- (BOOL)ay_isLandscape
+{
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    return UIInterfaceOrientationIsLandscape(orientation);
+}
+
 - (BOOL)ay_needsFixedSpace
 {
-    UIDeviceOrientation currentOrientation = [[UIDevice currentDevice] orientation];
-    BOOL isLandscape = UIDeviceOrientationIsLandscape(currentOrientation);
-    return isLandscape && kAYNavigationBarIsIPhoneX;
+    return [self ay_isLandscape] && kAYNavigationBarIsIPhoneX;
 }
 
 - (CGFloat)ay_largeTitleViewHeight
@@ -610,17 +335,13 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
         _largeTitleLabel.attributedText = [[NSAttributedString alloc] initWithString:self.navigationItem.title ?: @"" attributes:self.largeTitleTextAttributes];
         
         _largeTitleLabel.frame = CGRectMake(16.f, 0.f, kAYNavigationBarScreenWidth - 32.f, CGRectGetHeight(_largeTitleView.frame));
-        [UIView animateWithDuration:AYNavigationBarShowLargeTitleViewDuration animations:^{
-            _navigationItem.titleLabel.alpha = 0.f;
-            _largeTitleLabel.alpha = 1.f;
-        }];
+        _navigationItem.contentView.titleLabel.alpha = 0.f;
+        _largeTitleLabel.alpha = 1.f;
     }
     else {
         _largeTitleView.hidden = YES;
-        [UIView animateWithDuration:AYNavigationBarShowLargeTitleViewDuration animations:^{
-            _navigationItem.titleLabel.alpha = 1.f;
-            _largeTitleLabel.alpha = 0.f;
-        }];
+        _navigationItem.contentView.titleLabel.alpha = 1.f;
+        _largeTitleLabel.alpha = 0.f;
     }
 }
 
@@ -642,8 +363,8 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 {
     _navigationItem = navigationItem;
     
-    [_navigationItem removeFromSuperview];
-    [self addSubview:_navigationItem];
+    [_navigationItem.contentView removeFromSuperview];
+    [self addSubview:_navigationItem.contentView];
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
@@ -664,6 +385,7 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 {
     _prefersLargeTitles = prefersLargeTitles;
     
+    if ([self ay_isLandscape]) return;
     [self ay_layoutIfNeeded];
 }
 
@@ -679,6 +401,21 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
         
         [self ay_layoutIfNeeded];
     }
+}
+
+- (void)setContentOffset:(CGFloat)contentOffset
+{
+    _contentOffset = contentOffset > -14.f ? contentOffset : -14.f;
+    
+    if ([self ay_isLandscape]) return;
+    [self ay_layoutIfNeeded];
+}
+
+- (void)setVerticalOffset:(CGFloat)verticalOffset
+{
+    _verticalOffset = verticalOffset < 0.f ? verticalOffset : 0.f;
+    
+    [self ay_layoutIfNeeded];
 }
 
 @end
@@ -711,14 +448,11 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
         }
         
         [self registerNavigationBar];
+
+        self.fd_prefersNavigationBarHidden = !self.ay_navigationBarDisabled;
         
         if (self.navigationController.viewControllers.count > 1) {
-            if (self.navigationController.ay_backBarButton) {
-                [self ay_setCustomBackBarButton];
-            }
-            else {
-                [self ay_updateDefaultBackBarButton];
-            }
+            [self ay_setupBackBarButton];
         }
     }
 }
@@ -742,9 +476,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 #pragma mark - public
 - (void)registerNavigationBar
 {
-    if (self.navigationItem.title) {
-        self.ay_navigationItem.title = self.navigationItem.title;
-    }
     if (self.navigationController.ay_titleTextAttributes) {
         self.ay_navigationItem.titleTextAttributes = self.navigationController.ay_titleTextAttributes;
     }
@@ -763,42 +494,13 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 }
 
 #pragma mark - private
-- (void)ay_updateDefaultBackBarButton
+- (void)ay_setupBackBarButton
 {
     UIButton *backBarButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    NSString *title = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2].ay_navigationItem.title;
-    CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:17.f]}];
-    if (!title || titleSize.width > AYNavigationBarBackButtonTitleMaxWidth) {
-        NSArray *appLanguages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
-        NSString *languageName = appLanguages.firstObject;
-        BOOL isChinese = [languageName isEqualToString:@"zh-Hans-US"];
-        title = isChinese ? @"く返回" : @"くBack";
-        backBarButton.frame = isChinese ? CGRectMake(0, 0, 64, 44) : CGRectMake(0, 0, 70, 44);
-    }
-    else {
-        backBarButton.frame = CGRectMake(0, 0, titleSize.width + 30, 44);
-        title = [NSString stringWithFormat:@"く%@", title];
-    }
-    NSMutableAttributedString *mAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
-    [mAttributedText setAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:22]} range:NSMakeRange(0, 1)];
-    [mAttributedText setAttributes:@{NSBaselineOffsetAttributeName: @(2.5), NSFontAttributeName: [UIFont systemFontOfSize:17.f]} range:NSMakeRange(1, mAttributedText.length - 1)];
-    [backBarButton setAttributedTitle:mAttributedText forState:UIControlStateNormal];
-    [backBarButton addTarget:self action:@selector(backBarButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    self.ay_navigationItem.leftBarButton = backBarButton;
-}
-
-- (void)ay_setCustomBackBarButton
-{
-    UIButton *backBarButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    backBarButton.frame = self.navigationController.ay_backBarButton.frame;
-    NSString *title = [self.navigationController.ay_backBarButton titleForState:UIControlStateNormal];
-    UIImage *image = [self.navigationController.ay_backBarButton imageForState:UIControlStateNormal];
-    [backBarButton setTitle:title forState:UIControlStateNormal];
-    backBarButton.titleEdgeInsets = self.navigationController.ay_backBarButton.titleEdgeInsets;
-    if (image) {
-        [backBarButton setImage:image forState:UIControlStateNormal];
-        backBarButton.imageEdgeInsets = self.navigationController.ay_backBarButton.imageEdgeInsets;
-    }
+    backBarButton.clipsToBounds = YES;
+    [backBarButton sizeToFit];
+    [backBarButton setTitle:@"‹" forState:UIControlStateNormal];
+    backBarButton.titleLabel.font = [UIFont fontWithName:@"Menlo-Regular" size:49.f];
     [backBarButton addTarget:self action:@selector(backBarButtonAction) forControlEvents:UIControlEventTouchUpInside];
     self.ay_navigationItem.leftBarButton = backBarButton;
 }
@@ -841,6 +543,17 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
     objc_setAssociatedObject(self, @selector(ay_navigationItem), ay_navigationItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (BOOL)ay_navigationBarDisabled
+{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setAy_navigationBarDisabled:(BOOL)ay_navigationBarDisabled
+{
+    objc_setAssociatedObject(self, @selector(ay_navigationBarDisabled), @(ay_navigationBarDisabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.fd_prefersNavigationBarHidden = !ay_navigationBarDisabled;
+}
+
 @end
 
 #pragma mark - UINavigationController (AYNavigationBar)
@@ -850,13 +563,9 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSArray *sels = @[@"setNavigationBarHidden:animated:"];
-        [sels enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            Method originalMethod = class_getInstanceMethod(self, NSSelectorFromString(obj));
-            NSString *swizzledSel = [@"ay__" stringByAppendingString:obj];
-            Method swizzledMethod = class_getInstanceMethod(self, NSSelectorFromString(swizzledSel));
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }];
+        Method originalMethod = class_getInstanceMethod(self, @selector(setNavigationBarHidden:animated:));
+        Method swizzledMethod = class_getInstanceMethod(self, @selector(ay__setNavigationBarHidden:animated:));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
     });
 }
 
@@ -918,19 +627,6 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
     self.topViewController.ay_navigationBar.shadowImage = ay_barShadowImage;
 }
 
-- (UIButton *)ay_backBarButton
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setAy_backBarButton:(UIButton *)ay_backBarButton
-{
-    objc_setAssociatedObject(self, @selector(ay_backBarButton), ay_backBarButton, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    if (self.viewControllers.count > 1) {
-        [self.topViewController ay_setCustomBackBarButton];
-    }
-}
-
 - (BOOL)ay_navigationBarHidden
 {
     return [objc_getAssociatedObject(self, _cmd) boolValue];
@@ -957,6 +653,11 @@ const CGFloat AYNavigationBarShowLargeTitleViewDuration = 0.5;
 - (AYNavigationBar *)ay_navigationBar
 {
     return self.topViewController.ay_navigationBar;
+}
+
+- (AYNavigationItem *)ay_navigationItem
+{
+    return self.topViewController.ay_navigationItem;
 }
 
 @end
