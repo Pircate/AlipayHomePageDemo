@@ -59,7 +59,6 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.isScrollEnabled = false
         collectionView.register(HomeUsualFeatureCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         return collectionView
@@ -175,12 +174,17 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(tableView)
         scrollView.addSubview(collectionView)
         
+        // 禁止中间的collectionView滚动
+        collectionView.isScrollEnabled = false
+        
+        // 移除父scrollView的所有手势
         if let gestures = scrollView.gestureRecognizers {
             for gesture in gestures {
                 scrollView.removeGestureRecognizer(gesture)
             }
         }
         
+        // 将tableView的手势添加到父scrollView上
         if let gestures = tableView.gestureRecognizers {
             for gesture in gestures {
                 scrollView.addGestureRecognizer(gesture)
@@ -254,7 +258,7 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId")
-        cell?.textLabel?.text = "\(indexPath.row)"
+        cell?.textLabel?.text = "row: \(indexPath.row)"
         return cell!
     }
 }
