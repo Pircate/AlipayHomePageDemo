@@ -87,7 +87,7 @@ class HomeViewController: UIViewController {
     
     lazy var searchButton: UIButton = {
         let searchBtn = UIButton(type: .custom)
-        searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 24)
+        searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 20)
         searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .normal)
         searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .highlighted)
         return searchBtn
@@ -123,7 +123,7 @@ class HomeViewController: UIViewController {
                 if collectionView.frame.origin.y > -64 {
                     let alpha = -collectionView.frame.origin.y / 64
                     headerView.contentView.alpha = 1 - alpha
-                    
+                    searchButton.alpha = 1 - alpha
                 }
                 if collectionView.frame.origin.y < -64 {
                     updateNavigationItem(flag: true)
@@ -135,29 +135,19 @@ class HomeViewController: UIViewController {
             else {
                 collectionView.frame.origin.y = 0
                 headerView.contentView.alpha = 1
+                searchButton.alpha = 1
             }
         }
     }
     
     // MARK: - private
     func setupNavigationItem() {
-        
-        let moreBtn = UIButton(type: .system)
-        moreBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 44)
-        moreBtn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
-        moreBtn.setTitle("", for: .normal)
-        moreBtn.setTitleColor(.white, for: .normal)
-        
-        let friendBtn = UIButton(type: .system)
-        friendBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 44)
-        friendBtn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
-        friendBtn.setTitle("", for: .normal)
-        friendBtn.setTitleColor(.white, for: .normal)
-        
-        let fixedSpace = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        
-        navigation.item.rightBarButtonItems = [moreBtn, friendBtn, fixedSpace].map({
-            UIBarButtonItem(customView: $0)
+        navigation.bar.tintColor = UIColor.white
+        navigation.item.rightBarButtonItems = ["", ""].map({
+            let btn = UIButton(type: .system)
+            btn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
+            btn.setTitle($0, for: .normal)
+            return UIBarButtonItem(customView: btn)
         })
         
         updateNavigationItem(flag: false)
@@ -178,39 +168,31 @@ class HomeViewController: UIViewController {
         collectionView.isScrollEnabled = false
         
         // 移除父scrollView的所有手势
-        if let gestures = scrollView.gestureRecognizers {
-            for gesture in gestures {
-                scrollView.removeGestureRecognizer(gesture)
-            }
-        }
+        scrollView.gestureRecognizers?.forEach({
+            scrollView.removeGestureRecognizer($0)
+        })
         
         // 将tableView的手势添加到父scrollView上
-        if let gestures = tableView.gestureRecognizers {
-            for gesture in gestures {
-                scrollView.addGestureRecognizer(gesture)
-            }
-        }
+        tableView.gestureRecognizers?.forEach({
+            scrollView.addGestureRecognizer($0)
+        })
     }
     
     func updateNavigationItem(flag: Bool) {
         if flag {
-            let itemTitles = ["", "", "", ""]
-            var items = [UIView]()
-            for title in itemTitles {
+            let items: [UIButton] = ["", "", "", ""].map({
                 let btn = UIButton(type: .system)
-                btn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
                 btn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
-                btn.setTitle(title, for: .normal)
-                btn.setTitleColor(.white, for: .normal)
-                items.append(btn)
-            }
+                btn.setTitle($0, for: .normal)
+                return btn
+            })
             navigation.item.leftBarButtonItems = items.map({
                 UIBarButtonItem(customView: $0)
             })
             navigation.item.titleView = nil
         }
         else {
-            navigation.item.leftBarButtonItems = [UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0)))]
+            navigation.item.leftBarButtonItems = []
             navigation.item.titleView = searchButton
         }
     }
