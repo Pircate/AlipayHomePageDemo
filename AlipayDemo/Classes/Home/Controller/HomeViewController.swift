@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import SafariServices
 import MJRefresh
 
 var kScreenWidth = UIScreen.main.bounds.size.width
 var kScreenHeight = UIScreen.main.bounds.size.height
 
-class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController {
     
     var usualFeatures = [["featureName": "转账",
                           "featureIcon": ""],
@@ -65,10 +66,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     lazy var tableView: UITableView = {
-        
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.ay_navigationBar.frame.maxY), style: .plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY), style: .plain)
         tableView.dataSource = self
-        tableView.delegate = self
         let itemWidth = (kScreenWidth - 180) / 4.0
         let height = (itemWidth + 20) * 3 + 160
         tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0)
@@ -158,7 +157,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         let fixedSpace = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         
-        ay_navigationItem.rightBarItems = [moreBtn, friendBtn, fixedSpace]
+        navigation.item.rightBarButtonItems = [moreBtn, friendBtn, fixedSpace].map({
+            UIBarButtonItem(customView: $0)
+        })
         
         updateNavigationItem(flag: false)
     }
@@ -167,7 +168,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(ay_navigationBar.snp.bottom)
+            make.top.equalTo(navigation.bar.snp.bottom)
             make.left.bottom.right.equalTo(view)
         }
         
@@ -199,17 +200,20 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                 btn.setTitleColor(.white, for: .normal)
                 items.append(btn)
             }
-            ay_navigationItem.leftBarItems = items
-            ay_navigationItem.titleView = nil
+            navigation.item.leftBarButtonItems = items.map({
+                UIBarButtonItem(customView: $0)
+            })
+            navigation.item.titleView = nil
         }
         else {
-            ay_navigationItem.leftBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-            ay_navigationItem.titleView = searchButton
-            ay_navigationItem.titleViewStyle = .automatic
+            navigation.item.leftBarButtonItems = [UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0)))]
+            navigation.item.titleView = searchButton
         }
     }
-    
-    // MARK: - UICollectionViewDataSource
+}
+
+// MARK: - UICollectionViewDataSource
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return usualFeatures.count
     }
@@ -225,20 +229,27 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         header.addSubview(headerView)
         return header
     }
-    
-    // MARK: - UICollectionViewDelegateFlowLayout
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: kScreenWidth, height: 100)
     }
+}
 
-    // MARK: - UICollectionViewDelegate
+// MARK: - UICollectionViewDelegate
+extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(WebViewController(url: "www.sina.com"), animated: true)
+        let safariVC = SFSafariViewController(url: URL(string: "http://www.sina.com")!)
+        present(safariVC, animated: true, completion: nil)
     }
+}
 
-    // MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
+extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

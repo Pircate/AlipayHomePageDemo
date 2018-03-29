@@ -9,6 +9,4 @@
 #ifndef AlipayDemoBridging_h
 #define AlipayDemoBridging_h
 
-#import <AYNavigationBar/AYNavigationBar.h>
-
 #endif /* AlipayDemoBridging_h */

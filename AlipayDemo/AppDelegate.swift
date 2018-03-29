@@ -15,12 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        UIViewController.setupNavigationBar
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         let nav = UINavigationController(rootViewController: HomeViewController())
-        nav.ay_navigationBarEnabled = true
-        nav.ay_barTintColor = UIColor(red: 0, green: 0.5059, blue: 0.9216, alpha: 1)
+        nav.navigation.configuration.enabled = true
+        nav.navigation.configuration.barTintColor = UIColor(red: 0, green: 0.5059, blue: 0.9216, alpha: 1)
+        nav.navigation.configuration.shadowImage = UIImage()
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         return true

@@ -1,21 +1,15 @@
 PODS:
-  - AYNavigationBar (1.1.4):
-    - FDFullscreenPopGesture (~> 1.1)
-  - FDFullscreenPopGesture (1.1)
   - MJRefresh (3.1.15.1)
   - SnapKit (3.0.2)
 
 DEPENDENCIES:
-  - AYNavigationBar
   - MJRefresh
   - SnapKit (~> 3.0.2)
 
 SPEC CHECKSUMS:
-  AYNavigationBar: e739632143ab6afa9cb2be3c815d8193226f635c
-  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
-PODFILE CHECKSUM: 6aaf96319bb2001718325767b5942cc4bb72761d
+PODFILE CHECKSUM: 1ca1752e44f78a5ac6da5ee1a6a48feb200c940d
 
 COCOAPODS: 1.4.0

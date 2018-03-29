@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		33757FF2FCA39094861F6D2E /* Pods_AlipayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363C4B37E7F6649BDA8A50EB /* Pods_AlipayDemo.framework */; };
-		460D76E91FD6258A008D7D8E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D76E71FD62589008D7D8E /* WebViewController.swift */; };
 		460D76EA1FD6258A008D7D8E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */; };
 		460D76EC1FD63965008D7D8E /* HomeCommonFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D76EB1FD63965008D7D8E /* HomeCommonFeatureView.swift */; };
 		4627C8FF1FD5348200805838 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627C8FE1FD5348200805838 /* UIColorExtension.swift */; };
@@ -20,6 +19,8 @@
 		4688A7C01FD523BF00DDE2E6 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4688A7BF1FD523BF00DDE2E6 /* iconfont.ttf */; };
 		4688A7D01FD524E300DDE2E6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688A7CF1FD524E300DDE2E6 /* HomeViewController.swift */; };
 		4688A7D61FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688A7D51FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift */; };
+		B578E9FC206D2DD100763825 /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */; };
+		B578E9FD206D2DD100763825 /* FKNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578E9FB206D2DD100763825 /* FKNavigationBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +44,6 @@
 		296E72B73D062B335D8CD206 /* Pods-AlipayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlipayDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo.release.xcconfig"; sourceTree = "<group>"; };
 		363C4B37E7F6649BDA8A50EB /* Pods_AlipayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlipayDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A58F12222A6AF458700B01 /* Pods-AlipayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlipayDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		460D76E71FD62589008D7D8E /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		460D76EB1FD63965008D7D8E /* HomeCommonFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCommonFeatureView.swift; sourceTree = "<group>"; };
 		4627C8FE1FD5348200805838 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -62,6 +62,8 @@
 		4688A7CF1FD524E300DDE2E6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		4688A7D21FD5261A00DDE2E6 /* AlipayDemoBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlipayDemoBridging.h; sourceTree = "<group>"; };
 		4688A7D51FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUsualFeatureCell.swift; sourceTree = "<group>"; };
+		B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
+		B578E9FB206D2DD100763825 /* FKNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKNavigationBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +125,8 @@
 		4688A78E1FD5236200DDE2E6 /* AlipayDemo */ = {
 			isa = PBXGroup;
 			children = (
-				4688A7D31FD5280600DDE2E6 /* Category */,
+				B578E9F9206D2DB800763825 /* Vendor */,
+				4688A7D31FD5280600DDE2E6 /* Extension */,
 				4688A7D11FD525F500DDE2E6 /* OCBridging */,
 				4688A7BD1FD5238E00DDE2E6 /* Classes */,
 				4688A7BE1FD5238F00DDE2E6 /* Resource */,
@@ -211,14 +214,13 @@
 			path = OCBridging;
 			sourceTree = "<group>";
 		};
-		4688A7D31FD5280600DDE2E6 /* Category */ = {
+		4688A7D31FD5280600DDE2E6 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */,
-				460D76E71FD62589008D7D8E /* WebViewController.swift */,
 				4627C8FE1FD5348200805838 /* UIColorExtension.swift */,
 			);
-			path = Category;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		A058CBFE4D8BA25D4BAB9289 /* Pods */ = {
@@ -228,6 +230,15 @@
 				296E72B73D062B335D8CD206 /* Pods-AlipayDemo.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B578E9F9206D2DB800763825 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				B578E9FB206D2DD100763825 /* FKNavigationBar.swift */,
+				B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */,
+			);
+			path = Vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,15 +381,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AYNavigationBar/AYNavigationBar.framework",
-				"${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AYNavigationBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDFullscreenPopGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
@@ -428,12 +435,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4688A7D61FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift in Sources */,
-				460D76E91FD6258A008D7D8E /* WebViewController.swift in Sources */,
 				4688A7901FD5236200DDE2E6 /* AppDelegate.swift in Sources */,
 				4627C8FF1FD5348200805838 /* UIColorExtension.swift in Sources */,
 				460D76EA1FD6258A008D7D8E /* UIViewControllerExtension.swift in Sources */,
 				4688A7D01FD524E300DDE2E6 /* HomeViewController.swift in Sources */,
 				460D76EC1FD63965008D7D8E /* HomeCommonFeatureView.swift in Sources */,
+				B578E9FD206D2DD100763825 /* FKNavigationBar.swift in Sources */,
+				B578E9FC206D2DD100763825 /* UIViewController+NavigationBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

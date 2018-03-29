@@ -6,7 +6,7 @@
 //  Copyright © 2017年 adinnet. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UIColor {
     open class var global: UIColor {
