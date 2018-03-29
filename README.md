@@ -10,16 +10,12 @@
   collectionView.isScrollEnabled = false
         
   // 移除父scrollView的所有手势
-  if let gestures = scrollView.gestureRecognizers {
-    for gesture in gestures {
-      scrollView.removeGestureRecognizer(gesture)
-    }
-  }
+  scrollView.gestureRecognizers?.forEach({
+    scrollView.removeGestureRecognizer($0)
+  })
         
   // 将tableView的手势添加到父scrollView上
-  if let gestures = tableView.gestureRecognizers {
-    for gesture in gestures {
-      scrollView.addGestureRecognizer(gesture)
-    }
-  }
+  tableView.gestureRecognizers?.forEach({
+    scrollView.addGestureRecognizer($0)
+  })
 ```
