@@ -3,7 +3,7 @@
 
 ![image](https://github.com/GorXion/AlipayHomePageDemo/blob/master/alipay_home.gif)
 
-##主要思路:
+## 主要思路:
 
 ``` objc
   // 禁止中间的collectionView滚动
