@@ -52,8 +52,7 @@ class HomeViewController: UIViewController {
         flowLayout.minimumInteritemSpacing = 40
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 20)
         flowLayout.sectionInset = UIEdgeInsetsMake(10, 30, 10, 30)
-        let height = (itemWidth + 20) * 3 + 160
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: height), collectionViewLayout: flowLayout)
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: self.collectionViewHeight), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -67,10 +66,8 @@ class HomeViewController: UIViewController {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY), style: .plain)
         tableView.dataSource = self
-        let itemWidth = (kScreenWidth - 180) / 4.0
-        let height = (itemWidth + 20) * 3 + 160
-        tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(height, 0, 0, 0)
+        tableView.contentInset = UIEdgeInsetsMake(self.collectionViewHeight, 0, 0, 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.collectionViewHeight, 0, 0, 0)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -92,6 +89,11 @@ class HomeViewController: UIViewController {
         searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .highlighted)
         return searchBtn
     }()
+    
+    private var collectionViewHeight: CGFloat {
+        let itemWidth = (kScreenWidth - 180) / 4.0
+        return (itemWidth + 20) * 3 + 160
+    }
 
     // MARK: - life cycle
     override func viewDidLoad() {
@@ -116,20 +118,20 @@ class HomeViewController: UIViewController {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentOffset" {
-            let itemWidth = (kScreenWidth - 180) / 4.0
-            let height = (itemWidth + 20) * 3 + 160
-            if tableView.contentOffset.y + height > 0 {
-                collectionView.frame.origin.y = -(tableView.contentOffset.y + height)
+            let originY = tableView.contentOffset.y + collectionViewHeight
+            if originY > 0 {
+                // 中间的collectionView随着tableView滚动
+                collectionView.frame.origin.y = -originY
+                
+                // 导航栏渐变效果
                 if collectionView.frame.origin.y > -64 {
                     let alpha = -collectionView.frame.origin.y / 64
                     headerView.contentView.alpha = 1 - alpha
                     searchButton.alpha = 1 - alpha
-                }
-                if collectionView.frame.origin.y < -64 {
-                    updateNavigationItem(flag: true)
+                    updateNavigationItem(flag: false)
                 }
                 else {
-                    updateNavigationItem(flag: false)
+                    updateNavigationItem(flag: true)
                 }
             }
             else {
