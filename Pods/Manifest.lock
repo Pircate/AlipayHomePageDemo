@@ -1,15 +1,24 @@
 PODS:
+  - FKNavigationBar (0.0.2)
   - MJRefresh (3.1.15.1)
   - SnapKit (3.0.2)
 
 DEPENDENCIES:
+  - FKNavigationBar
   - MJRefresh
   - SnapKit (~> 3.0.2)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - FKNavigationBar
+    - MJRefresh
+    - SnapKit
+
 SPEC CHECKSUMS:
+  FKNavigationBar: 8dee336e7eb4cd52701e5df5eeb7a54936b51e95
   MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
-PODFILE CHECKSUM: 1ca1752e44f78a5ac6da5ee1a6a48feb200c940d
+PODFILE CHECKSUM: c0fda7aef834fc139481177abd8bcec20f49d359
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0.beta.1

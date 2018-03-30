@@ -28,18 +28,18 @@ extension UIViewController {
     public struct Navigation {
         
         public class Configuration {
-            var enabled = false
-            var barTintColor: UIColor?
-            var backgroundImage: UIImage?
-            var metrics: UIBarMetrics = .default
-            var position: UIBarPosition = .any
-            var shadowImage: UIImage?
-            var titleTextAttributes: [NSAttributedStringKey : Any]?
+            public var enabled = false
+            public var barTintColor: UIColor?
+            public var backgroundImage: UIImage?
+            public var metrics: UIBarMetrics = .default
+            public var position: UIBarPosition = .any
+            public var shadowImage: UIImage?
+            public var titleTextAttributes: [NSAttributedStringKey : Any]?
         }
         
-        let bar: FKNavigationBar
-        let item: UINavigationItem
-        let configuration = Configuration()
+        public let bar: FKNavigationBar
+        public let item: UINavigationItem
+        public let configuration = Configuration()
     }
     
     public var navigation: Navigation {
@@ -85,7 +85,7 @@ extension UIViewController {
     private func configureNavigationBarStyle(_ configuration: Navigation.Configuration) {
         _navigationBar.barTintColor = configuration.barTintColor
         _navigationBar.shadowImage = configuration.shadowImage
-        _navigationBar.titleTextAttributes = configuration.titleTextAttributes as [String : Any]?
+        _navigationBar.titleTextAttributes = configuration.titleTextAttributes
         _navigationBar.setBackgroundImage(configuration.backgroundImage, for: configuration.position, barMetrics: configuration.metrics)
     }
     

@@ -19,8 +19,6 @@
 		4688A7C01FD523BF00DDE2E6 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4688A7BF1FD523BF00DDE2E6 /* iconfont.ttf */; };
 		4688A7D01FD524E300DDE2E6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688A7CF1FD524E300DDE2E6 /* HomeViewController.swift */; };
 		4688A7D61FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688A7D51FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift */; };
-		B578E9FC206D2DD100763825 /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */; };
-		B578E9FD206D2DD100763825 /* FKNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578E9FB206D2DD100763825 /* FKNavigationBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +60,6 @@
 		4688A7CF1FD524E300DDE2E6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		4688A7D21FD5261A00DDE2E6 /* AlipayDemoBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlipayDemoBridging.h; sourceTree = "<group>"; };
 		4688A7D51FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUsualFeatureCell.swift; sourceTree = "<group>"; };
-		B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
-		B578E9FB206D2DD100763825 /* FKNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FKNavigationBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +121,6 @@
 		4688A78E1FD5236200DDE2E6 /* AlipayDemo */ = {
 			isa = PBXGroup;
 			children = (
-				B578E9F9206D2DB800763825 /* Vendor */,
 				4688A7D31FD5280600DDE2E6 /* Extension */,
 				4688A7D11FD525F500DDE2E6 /* OCBridging */,
 				4688A7BD1FD5238E00DDE2E6 /* Classes */,
@@ -232,15 +227,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		B578E9F9206D2DB800763825 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				B578E9FB206D2DD100763825 /* FKNavigationBar.swift */,
-				B578E9FA206D2DD100763825 /* UIViewController+NavigationBar.swift */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -253,7 +239,6 @@
 				4688A7891FD5236200DDE2E6 /* Frameworks */,
 				4688A78A1FD5236200DDE2E6 /* Resources */,
 				A1D8A3AA6A0AA76295264927 /* [CP] Embed Pods Frameworks */,
-				FDF0E5ABB60FE3D716C30763 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -381,11 +366,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FKNavigationBar/FKNavigationBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FKNavigationBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
@@ -412,21 +399,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FDF0E5ABB60FE3D716C30763 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -440,8 +412,6 @@
 				460D76EA1FD6258A008D7D8E /* UIViewControllerExtension.swift in Sources */,
 				4688A7D01FD524E300DDE2E6 /* HomeViewController.swift in Sources */,
 				460D76EC1FD63965008D7D8E /* HomeCommonFeatureView.swift in Sources */,
-				B578E9FD206D2DD100763825 /* FKNavigationBar.swift in Sources */,
-				B578E9FC206D2DD100763825 /* UIViewController+NavigationBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
