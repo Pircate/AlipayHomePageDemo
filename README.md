@@ -6,6 +6,11 @@
 ## 主要思路:
 
 ``` objc
+
+  // 一个scrollView容器添加两个子view
+  scrollView.addSubview(tableView)
+  scrollView.addSubview(collectionView)
+  
   // 禁止中间的collectionView滚动
   collectionView.isScrollEnabled = false
         
