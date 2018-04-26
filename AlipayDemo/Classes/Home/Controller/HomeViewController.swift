@@ -145,6 +145,7 @@ class HomeViewController: UIViewController {
     // MARK: - private
     func setupNavigationItem() {
         navigation.bar.tintColor = UIColor.white
+        navigation.bar.isTranslucent = false
         navigation.item.rightBarButtonItems = ["", ""].map({
             let btn = UIButton(type: .system)
             btn.titleLabel?.font = UIFont(name: "IconFont", size: 18)

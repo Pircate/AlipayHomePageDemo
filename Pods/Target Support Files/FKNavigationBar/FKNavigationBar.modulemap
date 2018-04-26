@@ -1,6 +1,0 @@
-framework module FKNavigationBar {
-  umbrella header "FKNavigationBar-umbrella.h"
-
-  export *
-  module * { export * }
-}

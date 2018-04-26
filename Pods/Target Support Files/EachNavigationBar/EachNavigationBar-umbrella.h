@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double FKNavigationBarVersionNumber;
-FOUNDATION_EXPORT const unsigned char FKNavigationBarVersionString[];
+FOUNDATION_EXPORT double EachNavigationBarVersionNumber;
+FOUNDATION_EXPORT const unsigned char EachNavigationBarVersionString[];
 

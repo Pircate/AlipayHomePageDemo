@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FKNavigationBar
+import EachNavigationBar
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -1,14 +1,14 @@
 //
-//  FKNavigationBar.swift
-//  UIViewController+NavigationBar
+//  EachNavigationBar.swift
+//  EachNavigationBar
 //
-//  Created by GorXion on 2018/3/28.
+//  Created by gaoX on 2018/3/28.
 //  Copyright © 2018年 gaoX. All rights reserved.
 //
 
 import UIKit
 
-open class FKNavigationBar: UINavigationBar {
+open class EachNavigationBar: UINavigationBar {
 
     private var _alpha: CGFloat = 1
     
@@ -23,14 +23,6 @@ open class FKNavigationBar: UINavigationBar {
             _alpha = newValue
             if let background = subviews.first {
                 background.alpha = newValue
-            }
-        }
-    }
-    
-    open override var barTintColor: UIColor? {
-        didSet {
-            if let visualEffectView = subviews.first?.subviews.last as? UIVisualEffectView {
-                visualEffectView.contentView.backgroundColor = barTintColor
             }
         }
     }
@@ -59,8 +51,5 @@ open class FKNavigationBar: UINavigationBar {
                                   y: -UIApplication.shared.statusBarFrame.maxY,
                                   width: bounds.width,
                                   height: bounds.height + UIApplication.shared.statusBarFrame.maxY)
-        if let visualEffectView = background.subviews.last as? UIVisualEffectView {
-            visualEffectView.contentView.backgroundColor = barTintColor
-        }
     }
 }
