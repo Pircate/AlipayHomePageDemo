@@ -82,12 +82,12 @@ class HomeViewController: UIViewController {
         return headerView
     }()
     
-    lazy var searchButton: UIButton = {
-        let searchBtn = UIButton(type: .custom)
-        searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 20)
-        searchBtn.setBackgroundImage(#imageLiteral(resourceName: "home_nav_search_background"), for: .normal)
-        searchBtn.setBackgroundImage(#imageLiteral(resourceName: "home_nav_search_background"), for: .highlighted)
-        return searchBtn
+    lazy var searchTextField: UITextField = {
+        let searchTextField = UITextField(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 28))
+        searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "   🔍 附近美食", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.white])
+        searchTextField.isEnabled = false
+        return searchTextField
     }()
     
     private var collectionViewHeight: CGFloat {
@@ -127,7 +127,7 @@ class HomeViewController: UIViewController {
                 if collectionView.frame.origin.y > -64 {
                     let alpha = -collectionView.frame.origin.y / 64
                     headerView.contentView.alpha = 1 - alpha
-                    searchButton.alpha = 1 - alpha
+                    searchTextField.alpha = 1 - alpha
                     updateNavigationItem(flag: false)
                 }
                 else {
@@ -137,7 +137,7 @@ class HomeViewController: UIViewController {
             else {
                 collectionView.frame.origin.y = 0
                 headerView.contentView.alpha = 1
-                searchButton.alpha = 1
+                searchTextField.alpha = 1
             }
         }
     }
@@ -194,7 +194,7 @@ class HomeViewController: UIViewController {
         }
         else {
             navigation.item.leftBarButtonItems = []
-            navigation.item.titleView = searchButton
+            navigation.item.titleView = searchTextField
         }
     }
 }
