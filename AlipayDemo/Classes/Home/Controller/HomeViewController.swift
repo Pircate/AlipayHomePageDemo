@@ -85,8 +85,8 @@ class HomeViewController: UIViewController {
     lazy var searchButton: UIButton = {
         let searchBtn = UIButton(type: .custom)
         searchBtn.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 20)
-        searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .normal)
-        searchBtn.setBackgroundImage(UIImage(named: "home_nav_search_background"), for: .highlighted)
+        searchBtn.setBackgroundImage(#imageLiteral(resourceName: "home_nav_search_background"), for: .normal)
+        searchBtn.setBackgroundImage(#imageLiteral(resourceName: "home_nav_search_background"), for: .highlighted)
         return searchBtn
     }()
     
@@ -147,10 +147,10 @@ class HomeViewController: UIViewController {
         navigation.bar.tintColor = UIColor.white
         navigation.bar.isTranslucent = false
         navigation.item.rightBarButtonItems = ["", ""].map({
-            let btn = UIButton(type: .system)
-            btn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
-            btn.setTitle($0, for: .normal)
-            return UIBarButtonItem(customView: btn)
+            let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
+            item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
+            item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
+            return item
         })
         
         updateNavigationItem(flag: false)
@@ -183,14 +183,12 @@ class HomeViewController: UIViewController {
     
     func updateNavigationItem(flag: Bool) {
         if flag {
-            let items: [UIButton] = ["", "", "", ""].map({
-                let btn = UIButton(type: .system)
-                btn.titleLabel?.font = UIFont(name: "IconFont", size: 18)
-                btn.setTitle($0, for: .normal)
-                return btn
-            })
-            navigation.item.leftBarButtonItems = items.map({
-                UIBarButtonItem(customView: $0)
+            navigation.item.leftBarButtonItems = ["", "", "", ""].map({
+                let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
+                item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
+                item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
+                item.width = 32
+                return item
             })
             navigation.item.titleView = nil
         }
@@ -230,7 +228,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let safariVC = SFSafariViewController(url: URL(string: "http://www.sina.com")!)
+        let safariVC = SFSafariViewController(url: URL(string: "http://www.taobao.com")!)
         present(safariVC, animated: true, completion: nil)
     }
 }

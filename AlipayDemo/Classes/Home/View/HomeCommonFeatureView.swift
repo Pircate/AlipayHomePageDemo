@@ -68,7 +68,7 @@ class HomeCommonFeatureView: UIView {
         }
     }
     
-    func btnAction(sender: UIButton) {
+    @objc func btnAction(sender: UIButton) {
         print("click")
     }
 }
