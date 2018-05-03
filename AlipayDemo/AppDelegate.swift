@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         let nav = UINavigationController(rootViewController: HomeViewController())
-        nav.navigation.configuration.enabled = true
+        nav.navigation.configuration.isEnabled = true
         nav.navigation.configuration.barTintColor = UIColor(red: 0, green: 0.5059, blue: 0.9216, alpha: 1)
         nav.navigation.configuration.shadowImage = UIImage()
         window?.rootViewController = nav

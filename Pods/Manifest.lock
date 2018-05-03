@@ -1,5 +1,5 @@
 PODS:
-  - EachNavigationBar (0.1.1)
+  - EachNavigationBar (0.1.2)
   - MJRefresh (3.1.15.3)
   - SnapKit (3.0.2)
 
@@ -15,7 +15,7 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
-  EachNavigationBar: 8e2824048aa9dc85948bc534a7b51a0631e4f441
+  EachNavigationBar: 899d8bdb544e6283d631b05648a6974a7c3d2573
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 

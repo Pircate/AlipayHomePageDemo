@@ -28,7 +28,7 @@ extension UIViewController {
     public struct Navigation {
         
         public class Configuration {
-            public var enabled = false
+            public var isEnabled = false
             public var barTintColor: UIColor?
             public var backgroundImage: UIImage?
             public var metrics: UIBarMetrics = .default
@@ -53,6 +53,12 @@ extension UIViewController {
         return navigation
     }
     
+    public func adjustsNavigationBarPosition() {
+        guard let navigationBar = navigationController?.navigationBar else { return }
+        _navigationBar.frame = navigationBar.frame
+        _navigationBar.setNeedsLayout()
+    }
+    
     private var _navigationBar: EachNavigationBar {
         if let bar = objc_getAssociatedObject(self, &kUIViewControllerNavigationBarKey) as? EachNavigationBar {
             return bar
@@ -73,7 +79,7 @@ extension UIViewController {
     
     private func bindNavigationBar() {
         guard let navigationController = navigationController,
-            navigationController.navigation.configuration.enabled else { return }
+            navigationController.navigation.configuration.isEnabled else { return }
         navigationController.navigationBar.isHidden = true
         configureNavigationBarStyle()
         view.addSubview(_navigationBar)
@@ -81,7 +87,7 @@ extension UIViewController {
     
     private func bringNavigationBarToFront() {
         guard let navigationController = navigationController,
-            navigationController.navigation.configuration.enabled else { return }
+            navigationController.navigation.configuration.isEnabled else { return }
         view.bringSubview(toFront: _navigationBar)
     }
     
