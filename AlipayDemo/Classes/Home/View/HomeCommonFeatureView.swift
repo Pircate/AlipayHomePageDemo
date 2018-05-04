@@ -13,7 +13,7 @@ class HomeCommonFeatureView: UIView {
     var contentView = UIView()
 
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 100))
+        super.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 80))
         self.backgroundColor = .global
         addSubviews()
     }
@@ -58,7 +58,7 @@ class HomeCommonFeatureView: UIView {
             btn.snp.makeConstraints({ (make) in
                 make.top.equalTo(contentView)
                 make.left.equalTo(contentView.snp.left).offset(itemWidth * CGFloat(index))
-                make.size.equalTo(CGSize(width: itemWidth, height: 70))
+                make.size.equalTo(CGSize(width: itemWidth, height: 50))
             })
             
             label.snp.makeConstraints({ (make) in

@@ -15,37 +15,37 @@ var kScreenHeight = UIScreen.main.bounds.size.height
 
 class HomeViewController: UIViewController {
     
-    var usualFeatures = [["featureName": "转账",
-                          "featureIcon": ""],
-                         ["featureName": "信用卡还款",
-                          "featureIcon": ""],
-                         ["featureName": "余额宝",
-                          "featureIcon": ""],
-                         ["featureName": "生活缴费",
-                          "featureIcon": ""],
-                         ["featureName": "我的快递",
-                          "featureIcon": ""],
-                         ["featureName": "天猫",
-                          "featureIcon": ""],
-                         ["featureName": "AA收款",
-                          "featureIcon": ""],
-                         ["featureName": "上银汇款",
-                          "featureIcon": ""],
-                         ["featureName": "爱心捐赠",
-                          "featureIcon": ""],
-                         ["featureName": "彩票",
-                          "featureIcon": ""],
-                         ["featureName": "游戏中心",
-                          "featureIcon": ""],
-                         ["featureName": "更多",
-                          "featureIcon": ""],]
+    private let usualFeatures = [["featureName": "转账",
+                                  "featureIcon": ""],
+                                 ["featureName": "信用卡还款",
+                                  "featureIcon": ""],
+                                 ["featureName": "余额宝",
+                                  "featureIcon": ""],
+                                 ["featureName": "生活缴费",
+                                  "featureIcon": ""],
+                                 ["featureName": "我的快递",
+                                  "featureIcon": ""],
+                                 ["featureName": "天猫",
+                                  "featureIcon": ""],
+                                 ["featureName": "AA收款",
+                                  "featureIcon": ""],
+                                 ["featureName": "上银汇款",
+                                  "featureIcon": ""],
+                                 ["featureName": "爱心捐赠",
+                                  "featureIcon": ""],
+                                 ["featureName": "彩票",
+                                  "featureIcon": ""],
+                                 ["featureName": "游戏中心",
+                                  "featureIcon": ""],
+                                 ["featureName": "更多",
+                                  "featureIcon": ""],]
     
-    lazy var scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let itemWidth = (kScreenWidth - 180) / 4.0
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 20
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY), style: .plain)
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsetsMake(self.collectionViewHeight, 0, 0, 0)
@@ -77,12 +77,12 @@ class HomeViewController: UIViewController {
         return tableView
     }()
     
-    lazy var headerView: HomeCommonFeatureView = {
+    private lazy var headerView: HomeCommonFeatureView = {
         let headerView = HomeCommonFeatureView(frame: .zero)
         return headerView
     }()
     
-    lazy var searchTextField: UITextField = {
+    private lazy var searchTextField: UITextField = {
         let searchTextField = UITextField(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 28))
         searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.25)
         searchTextField.attributedPlaceholder = NSAttributedString(string: "   🔍 附近美食", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.white])
@@ -108,7 +108,9 @@ class HomeViewController: UIViewController {
     }
     
     deinit {
-        tableView.removeObserver(self, forKeyPath: "contentOffset")
+        if isViewLoaded {
+            tableView.removeObserver(self, forKeyPath: "contentOffset")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -124,26 +126,34 @@ class HomeViewController: UIViewController {
                 collectionView.frame.origin.y = -originY
                 
                 // 导航栏渐变效果
-                if collectionView.frame.origin.y > -64 {
-                    let alpha = -collectionView.frame.origin.y / 64
-                    headerView.contentView.alpha = 1 - alpha
+                let height = headerView.bounds.height / 2
+                headerView.contentView.alpha = 1 - originY / headerView.bounds.height
+                if originY < height {
+                    let alpha = originY / height
                     searchTextField.alpha = 1 - alpha
                     updateNavigationItem(flag: false)
                 }
                 else {
                     updateNavigationItem(flag: true)
+                    let alpha =  (originY - height) / height
+                    navigation.item.leftBarButtonItems?.forEach({
+                        $0.tintColor = UIColor.white.withAlphaComponent(alpha)
+                    })
                 }
             }
             else {
                 collectionView.frame.origin.y = 0
                 headerView.contentView.alpha = 1
                 searchTextField.alpha = 1
+                navigation.item.rightBarButtonItems?.forEach({
+                    $0.tintColor = UIColor.white
+                })
             }
         }
     }
     
     // MARK: - private
-    func setupNavigationItem() {
+    private func setupNavigationItem() {
         navigation.bar.tintColor = UIColor.white
         navigation.bar.isTranslucent = false
         navigation.item.rightBarButtonItems = ["", ""].map({
@@ -181,7 +191,7 @@ class HomeViewController: UIViewController {
         })
     }
     
-    func updateNavigationItem(flag: Bool) {
+    private func updateNavigationItem(flag: Bool) {
         if flag {
             navigation.item.leftBarButtonItems = ["", "", "", ""].map({
                 let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
@@ -221,14 +231,14 @@ extension HomeViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: kScreenWidth, height: 100)
+        return CGSize(width: kScreenWidth, height: 80)
     }
 }
 
 // MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let safariVC = SFSafariViewController(url: URL(string: "http://www.taobao.com")!)
+        let safariVC = SFSafariViewController(url: URL(string: "https://www.taobao.com")!)
         present(safariVC, animated: true, completion: nil)
     }
 }
