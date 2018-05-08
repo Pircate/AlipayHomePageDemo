@@ -5,4 +5,5 @@ use_frameworks!
     pod 'SnapKit'
     pod 'MJRefresh'
     pod 'EachNavigationBar'
+    pod 'CocoaChainKit'
 end

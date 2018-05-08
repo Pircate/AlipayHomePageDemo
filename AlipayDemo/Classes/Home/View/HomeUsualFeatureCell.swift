@@ -15,14 +15,11 @@ class HomeUsualFeatureCell: UICollectionViewCell {
         let iconLabel = UILabel()
         iconLabel.font = UIFont(name: "IconFont", size: 24)
         iconLabel.textAlignment = .center
-        return iconLabel
+        return UILabel().chain.font(UIFont(name: "IconFont", size: 24)!).textAlignment(.center).installed
     }()
     
     lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 12)
-        return titleLabel
+        return UILabel().chain.systemFont(ofSize: 12).textAlignment(.center).installed
     }()
     
     override init(frame: CGRect) {

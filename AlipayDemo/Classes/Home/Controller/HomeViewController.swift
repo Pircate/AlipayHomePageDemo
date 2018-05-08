@@ -9,6 +9,7 @@
 import UIKit
 import SafariServices
 import MJRefresh
+import CocoaChainKit
 
 var kScreenWidth = UIScreen.main.bounds.size.width
 var kScreenHeight = UIScreen.main.bounds.size.height
@@ -41,34 +42,34 @@ class HomeViewController: UIViewController {
                                   "featureIcon": ""],]
     
     private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
+        return UIScrollView()
     }()
     
     private lazy var collectionView: UICollectionView = {
         let itemWidth = (kScreenWidth - 180) / 4.0
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 20
-        flowLayout.minimumInteritemSpacing = 40
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 20)
-        flowLayout.sectionInset = UIEdgeInsetsMake(10, 30, 10, 30)
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: self.collectionViewHeight), collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = .white
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.alwaysBounceVertical = true
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(HomeUsualFeatureCell.self, forCellWithReuseIdentifier: "cellId")
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        return collectionView
+        let flowLayout = UICollectionViewFlowLayout().chain
+            .minimumLineSpacing(20)
+            .minimumInteritemSpacing(40)
+            .itemSize(width: itemWidth, height: itemWidth + 20)
+            .sectionInset(top: 10, left: 30, bottom: 10, right: 30).installed
+        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: self.collectionViewHeight)
+        return UICollectionView(frame: frame, collectionViewLayout: flowLayout).chain
+            .dataSource(self)
+            .delegate(self)
+            .backgroundColor(UIColor.white)
+            .alwaysBounceVertical(true)
+            .showsVerticalScrollIndicator(false)
+            .register(HomeUsualFeatureCell.self, forCellWithReuseIdentifier: "cellId")
+            .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header").installed
     }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY), style: .plain)
-        tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsetsMake(self.collectionViewHeight, 0, 0, 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.collectionViewHeight, 0, 0, 0)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY)
+        let tableView = UITableView(frame: frame, style: .plain).chain
+            .dataSource(self)
+            .contentInset(top: self.collectionViewHeight, left: 0, bottom: 0, right: 0)
+            .register(UITableViewCell.self, forCellReuseIdentifier: "cellId").installed
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: self.collectionViewHeight, left: 0, bottom: 0, right: 0)
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 tableView.mj_header.endRefreshing()
@@ -78,16 +79,16 @@ class HomeViewController: UIViewController {
     }()
     
     private lazy var headerView: HomeCommonFeatureView = {
-        let headerView = HomeCommonFeatureView(frame: .zero)
-        return headerView
+        return HomeCommonFeatureView()
     }()
     
     private lazy var searchTextField: UITextField = {
-        let searchTextField = UITextField(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 28))
-        searchTextField.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        searchTextField.attributedPlaceholder = NSAttributedString(string: "   🔍 附近美食", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.white])
-        searchTextField.isEnabled = false
-        return searchTextField
+        let placeholder = NSAttributedString(string: "   🔍 附近美食", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.white])
+        return UITextField().chain
+            .frame(x: 0, y: 0, width: kScreenWidth, height: 28)
+            .backgroundColor(UIColor.black.withAlphaComponent(0.25))
+            .attributedPlaceholder(placeholder)
+            .isEnabled(false).installed
     }()
     
     private var collectionViewHeight: CGFloat {
@@ -154,8 +155,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - private
     private func setupNavigationItem() {
-        navigation.bar.tintColor = UIColor.white
-        navigation.bar.isTranslucent = false
+        navigation.bar.chain.tintColor(UIColor.white).isTranslucent(false)
         navigation.item.rightBarButtonItems = ["", ""].map({
             let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
             item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)

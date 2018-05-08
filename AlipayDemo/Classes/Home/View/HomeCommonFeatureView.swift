@@ -41,18 +41,18 @@ class HomeCommonFeatureView: UIView {
         let itemWidth = kScreenWidth / 4
         for (index, feature) in features.enumerated() {
             
-            let btn = UIButton(type: .system)
-            btn.setTitle(feature["featureIcon"], for: .normal)
-            btn.setTitleColor(.white, for: .normal)
-            btn.titleLabel?.font = UIFont(name: "IconFont", size: 32)
-            btn.addTarget(self, action: #selector(btnAction(sender:)), for: .touchUpInside)
+            let btn = UIButton(type: .system).chain
+                .title(feature["featureIcon"], for: .normal)
+                .titleColor(UIColor.white, for: .normal)
+                .font(UIFont(name: "IconFont", size: 32)!)
+                .addTarget(self, action: #selector(btnAction(sender:)), for: .touchUpInside).installed
             contentView.addSubview(btn)
             
-            let label = UILabel()
-            label.textColor = .white
-            label.font = UIFont.systemFont(ofSize: 14)
+            let label = UILabel().chain
+                .textColor(UIColor.white)
+                .systemFont(ofSize: 14)
+                .textAlignment(.center).installed
             label.text = feature["featureName"]
-            label.textAlignment = .center
             contentView.addSubview(label)
             
             btn.snp.makeConstraints({ (make) in

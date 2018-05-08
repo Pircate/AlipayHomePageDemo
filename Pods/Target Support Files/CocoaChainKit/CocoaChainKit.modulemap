@@ -1,0 +1,6 @@
+framework module CocoaChainKit {
+  umbrella header "CocoaChainKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
