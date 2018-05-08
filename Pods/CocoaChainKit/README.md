@@ -34,6 +34,20 @@ UIButton().chain
     .masksToBounds(true)
     .addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     .installed
+    
+    
+lazy var collectionView: UICollectionView = {
+    let flowLayout = UICollectionViewFlowLayout().chain
+        .itemSize(width: 80, height: 80)
+        .minimumLineSpacing(20)
+        .minimumInteritemSpacing(10)
+        .installed
+    return UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout).chain
+        .backgroundColor(UIColor.white)
+        .register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellID")
+        .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header")
+        .installed
+}()
 ```
 
 ## Author

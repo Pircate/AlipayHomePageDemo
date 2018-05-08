@@ -43,17 +43,19 @@ public extension Chain where Base: UINavigationBar {
         return self
     }
     
-    @available(iOS 11.0, *)
     @discardableResult
     func prefersLargeTitles(_ prefersLargeTitles: Bool) -> Chain {
-        base.prefersLargeTitles = prefersLargeTitles
+        if #available(iOS 11.0, *) {
+            base.prefersLargeTitles = prefersLargeTitles
+        }
         return self
     }
     
-    @available(iOS 11.0, *)
     @discardableResult
     func largeTitleTextAttributes(_ largeTitleTextAttributes: [NSAttributedStringKey : Any]?) -> Chain {
-        base.largeTitleTextAttributes = largeTitleTextAttributes
+        if #available(iOS 11.0, *) {
+            base.largeTitleTextAttributes = largeTitleTextAttributes
+        }
         return self
     }
 }

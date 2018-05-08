@@ -49,6 +49,19 @@ public extension Chain where Base: UIScrollView {
         return self
     }
     
+    @available(iOS 11.0, *)
+    @discardableResult
+    func contentInsetAdjustmentBehavior(_ contentInsetAdjustmentBehavior: UIScrollViewContentInsetAdjustmentBehavior) -> Chain {
+        base.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior
+        return self
+    }
+    
+    @discardableResult
+    func isDirectionalLockEnabled(_ isDirectionalLockEnabled: Bool) -> Chain {
+        base.isDirectionalLockEnabled = isDirectionalLockEnabled
+        return self
+    }
+    
     @discardableResult
     func bounces(_ bounces: Bool) -> Chain {
         base.bounces = bounces
@@ -88,6 +101,18 @@ public extension Chain where Base: UIScrollView {
     @discardableResult
     func showsVerticalScrollIndicator(_ showsVerticalScrollIndicator: Bool) -> Chain {
         base.showsVerticalScrollIndicator = showsVerticalScrollIndicator
+        return self
+    }
+    
+    @discardableResult
+    func scrollIndicatorInsets(_ scrollIndicatorInsets: UIEdgeInsets) -> Chain {
+        base.scrollIndicatorInsets = scrollIndicatorInsets
+        return self
+    }
+    
+    @discardableResult
+    func scrollIndicatorInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Chain {
+        base.scrollIndicatorInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
         return self
     }
 }

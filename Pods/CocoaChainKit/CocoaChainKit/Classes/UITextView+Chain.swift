@@ -56,6 +56,12 @@ public extension Chain where Base: UITextView {
     }
     
     @discardableResult
+    func textContainerInset(_ textContainerInset: UIEdgeInsets) -> Chain {
+        base.textContainerInset = textContainerInset
+        return self
+    }
+    
+    @discardableResult
     func dataDetectorTypes(_ dataDetectorTypes: UIDataDetectorTypes) -> Chain {
         base.dataDetectorTypes = dataDetectorTypes
         return self

@@ -52,7 +52,7 @@ class HomeViewController: UIViewController {
             .minimumInteritemSpacing(40)
             .itemSize(width: itemWidth, height: itemWidth + 20)
             .sectionInset(top: 10, left: 30, bottom: 10, right: 30).installed
-        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: self.collectionViewHeight)
+        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: collectionViewHeight)
         return UICollectionView(frame: frame, collectionViewLayout: flowLayout).chain
             .dataSource(self)
             .delegate(self)
@@ -64,12 +64,12 @@ class HomeViewController: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - self.navigation.bar.frame.maxY)
+        let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - navigation.bar.frame.maxY)
         let tableView = UITableView(frame: frame, style: .plain).chain
             .dataSource(self)
-            .contentInset(top: self.collectionViewHeight, left: 0, bottom: 0, right: 0)
-            .register(UITableViewCell.self, forCellReuseIdentifier: "cellId").installed
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: self.collectionViewHeight, left: 0, bottom: 0, right: 0)
+            .contentInset(top: collectionViewHeight, left: 0, bottom: 0, right: 0)
+            .register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+            .scrollIndicatorInsets(top: collectionViewHeight, left: 0, bottom: 0, right: 0).installed
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 tableView.mj_header.endRefreshing()
@@ -157,10 +157,9 @@ class HomeViewController: UIViewController {
     private func setupNavigationItem() {
         navigation.bar.chain.tintColor(UIColor.white).isTranslucent(false)
         navigation.item.rightBarButtonItems = ["", ""].map({
-            let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
-            item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
-            item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
-            return item
+            UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
+                .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
+                .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted).installed
         })
         
         updateNavigationItem(flag: false)
@@ -194,11 +193,10 @@ class HomeViewController: UIViewController {
     private func updateNavigationItem(flag: Bool) {
         if flag {
             navigation.item.leftBarButtonItems = ["", "", "", ""].map({
-                let item = UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
-                item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
-                item.setTitleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
-                item.width = 32
-                return item
+                UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
+                    .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
+                    .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
+                    .width(32).installed
             })
             navigation.item.titleView = nil
         }

@@ -7,5 +7,9 @@
 
 public extension Chain where Base: UIImageView {
     
-    
+    @discardableResult
+    func isHighlighted(_ isHighlighted: Bool) -> Chain {
+        base.isHighlighted = isHighlighted
+        return self
+    }
 }
