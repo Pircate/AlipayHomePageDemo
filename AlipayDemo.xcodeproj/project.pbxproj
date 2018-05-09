@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		33757FF2FCA39094861F6D2E /* Pods_AlipayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363C4B37E7F6649BDA8A50EB /* Pods_AlipayDemo.framework */; };
+		33839F3820A32FD100DF8CCC /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33839F3720A32FD100DF8CCC /* UIFontExtension.swift */; };
 		460D76EA1FD6258A008D7D8E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */; };
 		460D76EC1FD63965008D7D8E /* HomeCommonFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D76EB1FD63965008D7D8E /* HomeCommonFeatureView.swift */; };
 		4627C8FF1FD5348200805838 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4627C8FE1FD5348200805838 /* UIColorExtension.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		296E72B73D062B335D8CD206 /* Pods-AlipayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlipayDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo.release.xcconfig"; sourceTree = "<group>"; };
+		33839F3720A32FD100DF8CCC /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		363C4B37E7F6649BDA8A50EB /* Pods_AlipayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlipayDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A58F12222A6AF458700B01 /* Pods-AlipayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlipayDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlipayDemo/Pods-AlipayDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -58,7 +60,6 @@
 		4688A7B11FD5236200DDE2E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4688A7BF1FD523BF00DDE2E6 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		4688A7CF1FD524E300DDE2E6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		4688A7D21FD5261A00DDE2E6 /* AlipayDemoBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlipayDemoBridging.h; sourceTree = "<group>"; };
 		4688A7D51FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUsualFeatureCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				4688A7D31FD5280600DDE2E6 /* Extension */,
-				4688A7D11FD525F500DDE2E6 /* OCBridging */,
 				4688A7BD1FD5238E00DDE2E6 /* Classes */,
 				4688A7BE1FD5238F00DDE2E6 /* Resource */,
 				4688A78F1FD5236200DDE2E6 /* AppDelegate.swift */,
@@ -171,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				4688A7C61FD5241200DDE2E6 /* Controller */,
-				4688A7C71FD5241200DDE2E6 /* Model */,
 				4688A7C81FD5241200DDE2E6 /* View */,
 			);
 			path = Home;
@@ -185,13 +184,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		4688A7C71FD5241200DDE2E6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		4688A7C81FD5241200DDE2E6 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,19 +193,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		4688A7D11FD525F500DDE2E6 /* OCBridging */ = {
-			isa = PBXGroup;
-			children = (
-				4688A7D21FD5261A00DDE2E6 /* AlipayDemoBridging.h */,
-			);
-			path = OCBridging;
-			sourceTree = "<group>";
-		};
 		4688A7D31FD5280600DDE2E6 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				460D76E81FD6258A008D7D8E /* UIViewControllerExtension.swift */,
 				4627C8FE1FD5348200805838 /* UIColorExtension.swift */,
+				33839F3720A32FD100DF8CCC /* UIFontExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -411,6 +396,7 @@
 				4688A7D61FD52B0300DDE2E6 /* HomeUsualFeatureCell.swift in Sources */,
 				4688A7901FD5236200DDE2E6 /* AppDelegate.swift in Sources */,
 				4627C8FF1FD5348200805838 /* UIColorExtension.swift in Sources */,
+				33839F3820A32FD100DF8CCC /* UIFontExtension.swift in Sources */,
 				460D76EA1FD6258A008D7D8E /* UIViewControllerExtension.swift in Sources */,
 				4688A7D01FD524E300DDE2E6 /* HomeViewController.swift in Sources */,
 				460D76EC1FD63965008D7D8E /* HomeCommonFeatureView.swift in Sources */,
@@ -579,7 +565,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.adinnet.AlipayDemo-gx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AlipayDemo/OCBridging/AlipayDemoBridging.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -597,7 +583,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.adinnet.AlipayDemo-gx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AlipayDemo/OCBridging/AlipayDemoBridging.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

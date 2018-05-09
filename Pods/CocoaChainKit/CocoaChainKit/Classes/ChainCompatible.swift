@@ -18,3 +18,5 @@ public extension ChainCompatible {
         return Chain(self)
     }
 }
+
+extension NSObject: ChainCompatible {}

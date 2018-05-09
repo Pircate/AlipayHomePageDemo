@@ -16,30 +16,18 @@ var kScreenHeight = UIScreen.main.bounds.size.height
 
 class HomeViewController: UIViewController {
     
-    private let usualFeatures = [["featureName": "转账",
-                                  "featureIcon": ""],
-                                 ["featureName": "信用卡还款",
-                                  "featureIcon": ""],
-                                 ["featureName": "余额宝",
-                                  "featureIcon": ""],
-                                 ["featureName": "生活缴费",
-                                  "featureIcon": ""],
-                                 ["featureName": "我的快递",
-                                  "featureIcon": ""],
-                                 ["featureName": "天猫",
-                                  "featureIcon": ""],
-                                 ["featureName": "AA收款",
-                                  "featureIcon": ""],
-                                 ["featureName": "上银汇款",
-                                  "featureIcon": ""],
-                                 ["featureName": "爱心捐赠",
-                                  "featureIcon": ""],
-                                 ["featureName": "彩票",
-                                  "featureIcon": ""],
-                                 ["featureName": "游戏中心",
-                                  "featureIcon": ""],
-                                 ["featureName": "更多",
-                                  "featureIcon": ""],]
+    private let usualFeatures = [(name: "转账", icon: ""),
+                                 (name: "信用卡还款", icon: ""),
+                                 (name: "余额宝", icon: ""),
+                                 (name: "生活缴费", icon: ""),
+                                 (name: "我的快递", icon: ""),
+                                 (name: "天猫", icon: ""),
+                                 (name: "AA收款", icon: ""),
+                                 (name: "上银汇款", icon: ""),
+                                 (name: "爱心捐赠", icon: ""),
+                                 (name: "彩票", icon: ""),
+                                 (name: "游戏中心", icon: ""),
+                                 (name: "更多", icon: ""),]
     
     private lazy var scrollView: UIScrollView = {
         return UIScrollView()
@@ -132,10 +120,10 @@ class HomeViewController: UIViewController {
                 if originY < height {
                     let alpha = originY / height
                     searchTextField.alpha = 1 - alpha
-                    updateNavigationItem(flag: false)
+                    updateNavigationItem(false)
                 }
                 else {
-                    updateNavigationItem(flag: true)
+                    updateNavigationItem(true)
                     let alpha =  (originY - height) / height
                     navigation.item.leftBarButtonItems?.forEach({
                         $0.tintColor = UIColor.white.withAlphaComponent(alpha)
@@ -158,11 +146,11 @@ class HomeViewController: UIViewController {
         navigation.bar.chain.tintColor(UIColor.white).isTranslucent(false)
         navigation.item.rightBarButtonItems = ["", ""].map({
             UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
-                .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
-                .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted).installed
+                .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal)
+                .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .highlighted).installed
         })
         
-        updateNavigationItem(flag: false)
+        updateNavigationItem(false)
     }
     
     private func addSubviews() {
@@ -190,12 +178,12 @@ class HomeViewController: UIViewController {
         })
     }
     
-    private func updateNavigationItem(flag: Bool) {
+    private func updateNavigationItem(_ flag: Bool) {
         if flag {
             navigation.item.leftBarButtonItems = ["", "", "", ""].map({
                 UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
-                    .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .normal)
-                    .titleTextAttributes([.font: UIFont(name: "IconFont", size: 20)!], for: .highlighted)
+                    .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal)
+                    .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .highlighted)
                     .width(32).installed
             })
             navigation.item.titleView = nil

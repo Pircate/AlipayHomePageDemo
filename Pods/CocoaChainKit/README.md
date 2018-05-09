@@ -22,33 +22,13 @@ pod 'CocoaChainKit'
 
 ## Usage
 
-```swift
-UIButton().chain
-    .frame(x: 0, y: 0, width: 120, height: 30)
-    .center(view.center)
-    .backgroundColor(UIColor.red)
-    .systemFont(ofSize: 14)
-    .title("Hello World", for: .normal)
-    .titleColor(UIColor.blue, for: .normal)
-    .cornerRadius(15)
-    .masksToBounds(true)
-    .addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-    .installed
-    
-    
-lazy var collectionView: UICollectionView = {
-    let flowLayout = UICollectionViewFlowLayout().chain
-        .itemSize(width: 80, height: 80)
-        .minimumLineSpacing(20)
-        .minimumInteritemSpacing(10)
-        .installed
-    return UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout).chain
-        .backgroundColor(UIColor.white)
-        .register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellID")
-        .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header")
-        .installed
-}()
-```
+### before
+
+![](https://github.com/Ginxx/CocoaChainKit/blob/master/Example/before.png)
+
+### use chain kit
+
+![](https://github.com/Ginxx/CocoaChainKit/blob/master/Example/cocoa_chain_kit.png)
 
 ## Author
 

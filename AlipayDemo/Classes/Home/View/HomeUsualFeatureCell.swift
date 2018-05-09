@@ -12,10 +12,7 @@ import SnapKit
 class HomeUsualFeatureCell: UICollectionViewCell {
     
     lazy var iconLabel: UILabel = {
-        let iconLabel = UILabel()
-        iconLabel.font = UIFont(name: "IconFont", size: 24)
-        iconLabel.textAlignment = .center
-        return UILabel().chain.font(UIFont(name: "IconFont", size: 24)!).textAlignment(.center).installed
+        return UILabel().chain.font(UIFont.iconFont(ofSize: 24)).textAlignment(.center).installed
     }()
     
     lazy var titleLabel: UILabel = {
@@ -43,8 +40,8 @@ class HomeUsualFeatureCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
-    func setupUsualFeatureInfo(info: [String: Any]) {
-        iconLabel.text = info["featureIcon"] as? String
-        titleLabel.text = info["featureName"] as? String
+    func setupUsualFeatureInfo(info: (name: String, icon: String)) {
+        iconLabel.text = info.icon
+        titleLabel.text = info.name
     }
 }

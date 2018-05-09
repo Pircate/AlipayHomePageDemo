@@ -29,22 +29,18 @@ class HomeCommonFeatureView: UIView {
             make.left.right.top.bottom.equalTo(self)
         }
         
-        let features = [["featureName": "扫一扫",
-                         "featureIcon": ""],
-                        ["featureName": "付钱",
-                         "featureIcon": ""],
-                        ["featureName": "收钱",
-                         "featureIcon": ""],
-                        ["featureName": "账单",
-                         "featureIcon": ""],]
+        let features = [(name: "扫一扫", icon: ""),
+                        (name: "付钱", icon: ""),
+                        (name: "收钱", icon: ""),
+                        (name: "账单", icon: ""),]
         
         let itemWidth = kScreenWidth / 4
         for (index, feature) in features.enumerated() {
             
             let btn = UIButton(type: .system).chain
-                .title(feature["featureIcon"], for: .normal)
+                .title(feature.icon, for: .normal)
                 .titleColor(UIColor.white, for: .normal)
-                .font(UIFont(name: "IconFont", size: 32)!)
+                .font(UIFont.iconFont(ofSize: 32))
                 .addTarget(self, action: #selector(btnAction(sender:)), for: .touchUpInside).installed
             contentView.addSubview(btn)
             
@@ -52,7 +48,7 @@ class HomeCommonFeatureView: UIView {
                 .textColor(UIColor.white)
                 .systemFont(ofSize: 14)
                 .textAlignment(.center).installed
-            label.text = feature["featureName"]
+            label.text = feature.name
             contentView.addSubview(label)
             
             btn.snp.makeConstraints({ (make) in

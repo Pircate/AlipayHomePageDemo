@@ -5,8 +5,6 @@
 //  Created by GorXion on 2018/5/8.
 //
 
-extension UIBarItem: ChainCompatible {}
-
 public extension Chain where Base: UIBarItem {
     
     @discardableResult

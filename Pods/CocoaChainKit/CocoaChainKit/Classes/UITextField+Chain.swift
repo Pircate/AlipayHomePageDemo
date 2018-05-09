@@ -92,8 +92,26 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
+    func typingAttributes(_ typingAttributes: [String: Any]?) -> Chain {
+        base.typingAttributes = typingAttributes
+        return self
+    }
+    
+    @discardableResult
     func clearButtonMode(_ clearButtonMode: UITextFieldViewMode) -> Chain {
         base.clearButtonMode = clearButtonMode
+        return self
+    }
+    
+    @discardableResult
+    func leftViewMode(_ leftViewMode: UITextFieldViewMode) -> Chain {
+        base.leftViewMode = leftViewMode
+        return self
+    }
+    
+    @discardableResult
+    func rightViewMode(_ rightViewMode: UITextFieldViewMode) -> Chain {
+        base.rightViewMode = rightViewMode
         return self
     }
     

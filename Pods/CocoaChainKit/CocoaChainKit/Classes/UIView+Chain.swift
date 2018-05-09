@@ -5,8 +5,6 @@
 //  Created by GorXion on 2018/5/8.
 //
 
-extension UIView: ChainCompatible {}
-
 public extension Chain where Base: UIView {
     
     @discardableResult
