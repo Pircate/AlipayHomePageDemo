@@ -12,11 +12,11 @@ import SnapKit
 class HomeUsualFeatureCell: UICollectionViewCell {
     
     lazy var iconLabel: UILabel = {
-        return UILabel().chain.font(UIFont.iconFont(ofSize: 24)).textAlignment(.center).installed
+        return UILabel().chain.font(UIFont.iconFont(ofSize: 24)).textAlignment(.center).build
     }()
     
     lazy var titleLabel: UILabel = {
-        return UILabel().chain.systemFont(ofSize: 12).textAlignment(.center).installed
+        return UILabel().chain.systemFont(ofSize: 12).textAlignment(.center).build
     }()
     
     override init(frame: CGRect) {

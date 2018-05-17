@@ -1,5 +1,5 @@
 PODS:
-  - CocoaChainKit (0.2.0)
+  - CocoaChainKit (0.4.2)
   - EachNavigationBar (0.1.2)
   - MJRefresh (3.1.15.3)
   - SnapKit (4.0.0)
@@ -11,18 +11,18 @@ DEPENDENCIES:
   - SnapKit
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - CocoaChainKit
     - EachNavigationBar
     - MJRefresh
     - SnapKit
 
 SPEC CHECKSUMS:
-  CocoaChainKit: 8f011a5a96b86f67d42e52f7ee0d8ef8a60da8fe
+  CocoaChainKit: b812b87c270e8383cf65640857d63112b1d8ad88
   EachNavigationBar: 899d8bdb544e6283d631b05648a6974a7c3d2573
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
 PODFILE CHECKSUM: bf35e215dc109bbf3d3685fb8c368a56785959a6
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

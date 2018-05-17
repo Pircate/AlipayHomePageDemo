@@ -8,6 +8,12 @@
 public extension Chain where Base: UIProgressView {
     
     @discardableResult
+    func progress(_ progress: Float) -> Chain {
+        base.progress = progress
+        return self
+    }
+    
+    @discardableResult
     func progressViewStyle(_ progressViewStyle: UIProgressViewStyle) -> Chain {
         base.progressViewStyle = progressViewStyle
         return self

@@ -8,6 +8,18 @@
 public extension Chain where Base: UILabel {
     
     @discardableResult
+    func text(_ text: String?) -> Chain {
+        base.text = text
+        return self
+    }
+    
+    @discardableResult
+    func attributedText(_ attributedText: NSAttributedString?) -> Chain {
+        base.attributedText = attributedText
+        return self
+    }
+    
+    @discardableResult
     func textColor(_ textColor: UIColor) -> Chain {
         base.textColor = textColor
         return self

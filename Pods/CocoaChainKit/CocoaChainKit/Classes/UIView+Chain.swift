@@ -144,4 +144,28 @@ public extension Chain where Base: UIView {
         base.layer.shadowPath = shadowPath
         return self
     }
+    
+    @discardableResult
+    func addSubview(_ view: UIView) -> Chain {
+        base.addSubview(view)
+        return self
+    }
+    
+    @discardableResult
+    func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) -> Chain {
+        base.addGestureRecognizer(gestureRecognizer)
+        return self
+    }
+    
+    @discardableResult
+    func addConstraint(_ constraint: NSLayoutConstraint) -> Chain {
+        base.addConstraint(constraint)
+        return self
+    }
+    
+    @discardableResult
+    func addConstraints(_ constraints: [NSLayoutConstraint]) -> Chain {
+        base.addConstraints(constraints)
+        return self
+    }
 }

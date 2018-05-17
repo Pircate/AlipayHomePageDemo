@@ -41,13 +41,13 @@ class HomeCommonFeatureView: UIView {
                 .title(feature.icon, for: .normal)
                 .titleColor(UIColor.white, for: .normal)
                 .font(UIFont.iconFont(ofSize: 32))
-                .addTarget(self, action: #selector(btnAction(sender:)), for: .touchUpInside).installed
+                .addTarget(self, action: #selector(btnAction(sender:)), for: .touchUpInside).build
             contentView.addSubview(btn)
             
             let label = UILabel().chain
                 .textColor(UIColor.white)
                 .systemFont(ofSize: 14)
-                .textAlignment(.center).installed
+                .textAlignment(.center).build
             label.text = feature.name
             contentView.addSubview(label)
             

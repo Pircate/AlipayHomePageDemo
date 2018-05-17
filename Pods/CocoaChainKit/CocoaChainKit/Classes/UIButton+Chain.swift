@@ -8,32 +8,33 @@
 public extension Chain where Base: UIButton {
     
     @discardableResult
-    func title(_ title: String?, for state: UIControlState) -> Chain {
-        base.setTitle(title, for: state)
+    func title(_ title: String?, for state: UIControlState...) -> Chain {
+        state.forEach({ base.setTitle(title, for: $0) })
         return self
     }
     
     @discardableResult
-    func titleColor(_ color: UIColor?, for state: UIControlState) -> Chain {
-        base.setTitleColor(color, for: state)
+    func titleColor(_ color: UIColor?, for state: UIControlState...) -> Chain {
+        state.forEach({ base.setTitleColor(color, for: $0) })
         return self
     }
     
     @discardableResult
-    func image(_ image: UIImage?, for state: UIControlState) -> Chain {
-        base.setImage(image, for: state)
+    func image(_ image: UIImage?, for state: UIControlState...) -> Chain {
+        state.forEach({ base.setImage(image, for: $0) })
         return self
     }
     
     @discardableResult
-    func backgroundImage(_ image: UIImage?, for state: UIControlState) -> Chain {
-        base.setBackgroundImage(image, for: state)
+    func backgroundImage(_ image: UIImage?, for state: UIControlState...) -> Chain {
+        state.forEach({ base.setBackgroundImage(image, for: $0) })
+        
         return self
     }
     
     @discardableResult
-    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControlState) -> Chain {
-        base.setAttributedTitle(attributedTitle, for: state)
+    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControlState...) -> Chain {
+        state.forEach({ base.setAttributedTitle(attributedTitle, for: $0) })
         return self
     }
     

@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
             .minimumLineSpacing(20)
             .minimumInteritemSpacing(40)
             .itemSize(width: itemWidth, height: itemWidth + 20)
-            .sectionInset(top: 10, left: 30, bottom: 10, right: 30).installed
+            .sectionInset(top: 10, left: 30, bottom: 10, right: 30).build
         let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: collectionViewHeight)
         return UICollectionView(frame: frame, collectionViewLayout: flowLayout).chain
             .dataSource(self)
@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
             .alwaysBounceVertical(true)
             .showsVerticalScrollIndicator(false)
             .register(HomeUsualFeatureCell.self, forCellWithReuseIdentifier: "cellId")
-            .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header").installed
+            .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header").build
     }()
     
     private lazy var tableView: UITableView = {
@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
             .dataSource(self)
             .contentInset(top: collectionViewHeight, left: 0, bottom: 0, right: 0)
             .register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-            .scrollIndicatorInsets(top: collectionViewHeight, left: 0, bottom: 0, right: 0).installed
+            .scrollIndicatorInsets(top: collectionViewHeight, left: 0, bottom: 0, right: 0).build
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 tableView.mj_header.endRefreshing()
@@ -76,7 +76,7 @@ class HomeViewController: UIViewController {
             .frame(x: 0, y: 0, width: kScreenWidth, height: 28)
             .backgroundColor(UIColor.black.withAlphaComponent(0.25))
             .attributedPlaceholder(placeholder)
-            .isEnabled(false).installed
+            .isEnabled(false).build
     }()
     
     private var collectionViewHeight: CGFloat {
@@ -146,8 +146,8 @@ class HomeViewController: UIViewController {
         navigation.bar.chain.tintColor(UIColor.white).isTranslucent(false)
         navigation.item.rightBarButtonItems = ["", ""].map({
             UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
-                .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal)
-                .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .highlighted).installed
+                .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal, .highlighted)
+                .build
         })
         
         updateNavigationItem(false)
@@ -182,9 +182,8 @@ class HomeViewController: UIViewController {
         if flag {
             navigation.item.leftBarButtonItems = ["", "", "", ""].map({
                 UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
-                    .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal)
-                    .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .highlighted)
-                    .width(32).installed
+                    .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal, .highlighted)
+                    .width(32).build
             })
             navigation.item.titleView = nil
         }

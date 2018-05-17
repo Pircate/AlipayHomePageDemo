@@ -14,6 +14,18 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
+    func text(_ text: String?) -> Chain {
+        base.text = text
+        return self
+    }
+    
+    @discardableResult
+    func attributedText(_ attributedText: NSAttributedString?) -> Chain {
+        base.attributedText = attributedText
+        return self
+    }
+    
+    @discardableResult
     func textColor(_ textColor: UIColor) -> Chain {
         base.textColor = textColor
         return self
@@ -124,6 +136,20 @@ public extension Chain where Base: UITextField {
     @discardableResult
     func returnKeyType(_ returnKeyType: UIReturnKeyType) -> Chain {
         base.returnKeyType = returnKeyType
+        return self
+    }
+    
+    @discardableResult
+    func isSecureTextEntry(_ isSecureTextEntry: Bool) -> Chain {
+        base.isSecureTextEntry = isSecureTextEntry
+        return self
+    }
+    
+    @discardableResult
+    func textContentType(_ textContentType: UITextContentType) -> Chain {
+        if #available(iOS 10.0, *) {
+            base.textContentType = textContentType
+        }
         return self
     }
 }
