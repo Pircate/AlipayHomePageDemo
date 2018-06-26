@@ -29,9 +29,7 @@ class HomeViewController: UIViewController {
                                  (name: "游戏中心", icon: ""),
                                  (name: "更多", icon: ""),]
     
-    private lazy var scrollView: UIScrollView = {
-        return UIScrollView()
-    }()
+    private lazy var scrollView: UIScrollView = { UIScrollView() }()
     
     private lazy var collectionView: UICollectionView = {
         let itemWidth = (kScreenWidth - 180) / 4.0
@@ -186,8 +184,7 @@ class HomeViewController: UIViewController {
                     .width(32).build
             })
             navigation.item.titleView = nil
-        }
-        else {
+        } else {
             navigation.item.leftBarButtonItems = []
             navigation.item.titleView = searchTextField
         }

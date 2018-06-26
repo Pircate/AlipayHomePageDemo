@@ -2,8 +2,8 @@
 //  EachNavigationBar.swift
 //  EachNavigationBar
 //
-//  Created by gaoX on 2018/3/28.
-//  Copyright © 2018年 gaoX. All rights reserved.
+//  Created by Pircate on 2018/3/28.
+//  Copyright © 2018年 Pircate. All rights reserved.
 //
 
 import UIKit
@@ -14,6 +14,12 @@ open class EachNavigationBar: UINavigationBar {
     
     /// Default is false. If set true, navigation bar will not restore when the UINavigationController call viewWillLayoutSubviews
     open var isUnrestoredWhenViewWillLayoutSubviews = false
+    
+    open var extraHeight: CGFloat = 0 {
+        didSet {
+            frame.size.height = 44.0 + extraHeight
+        }
+    }
     
     open override var alpha: CGFloat {
         get {

@@ -2,15 +2,14 @@
 //  UIViewController+NavigationBar.swift
 //  EachNavigationBar
 //
-//  Created by gaoX on 2018/3/26.
-//  Copyright © 2018年 gaoX. All rights reserved.
+//  Created by Pircate on 2018/3/26.
+//  Copyright © 2018年 Pircate. All rights reserved.
 //
 
 import UIKit
 import ObjectiveC
 
-private var kUIViewControllerNavigationKey     = "UI_VIEW_CONTROLLER_NAVIGATION_KEY"
-private var kUIViewControllerNavigationBarKey  = "UI_VIEW_CONTROLLER_NAVIGATION_BAR_KEY"
+private var kUIViewControllerNavigationBarKey = "UI_VIEW_CONTROLLER_NAVIGATION_BAR_KEY"
 private var kUIViewControllerNavigationItemKey = "UI_VIEW_CONTROLLER_NAVIGATION_ITEM_KEY"
 
 extension UIViewController {
@@ -25,41 +24,13 @@ extension UIViewController {
         }
     }()
     
-    public struct Navigation {
-        
-        public class Configuration {
-            public var isEnabled = false
-            public var barTintColor: UIColor?
-            public var backgroundImage: UIImage?
-            public var metrics: UIBarMetrics = .default
-            public var position: UIBarPosition = .any
-            public var shadowImage: UIImage?
-            public var titleTextAttributes: [NSAttributedStringKey : Any]?
-            public var isTranslucent: Bool = true
-            public var barStyle: UIBarStyle = .default
-        }
-        
-        public let bar: EachNavigationBar
-        public let item: UINavigationItem
-        public let configuration = Configuration()
-    }
-    
-    public var navigation: Navigation {
-        if let navigation = objc_getAssociatedObject(self, &kUIViewControllerNavigationKey) as? Navigation {
-            return navigation
-        }
-        let navigation = Navigation(bar: _navigationBar, item: _navigationItem)
-        objc_setAssociatedObject(self, &kUIViewControllerNavigationKey, navigation, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return navigation
-    }
-    
     public func adjustsNavigationBarPosition() {
         guard let navigationBar = navigationController?.navigationBar else { return }
         _navigationBar.frame = navigationBar.frame
         _navigationBar.setNeedsLayout()
     }
     
-    private var _navigationBar: EachNavigationBar {
+    var _navigationBar: EachNavigationBar {
         if let bar = objc_getAssociatedObject(self, &kUIViewControllerNavigationBarKey) as? EachNavigationBar {
             return bar
         }
@@ -68,7 +39,7 @@ extension UIViewController {
         return bar
     }
     
-    private var _navigationItem: UINavigationItem {
+    var _navigationItem: UINavigationItem {
         if let item = objc_getAssociatedObject(self, &kUIViewControllerNavigationItemKey) as? UINavigationItem {
             return item
         }
@@ -99,6 +70,7 @@ extension UIViewController {
         _navigationBar.setBackgroundImage(configuration.backgroundImage, for: configuration.position, barMetrics: configuration.metrics)
         _navigationBar.isTranslucent = configuration.isTranslucent
         _navigationBar.barStyle = configuration.barStyle
+        _navigationBar.extraHeight = configuration.extraHeight
     }
     
     @objc private func each_viewDidLoad() {
@@ -126,13 +98,14 @@ extension UINavigationController {
         
         if bar.isUnrestoredWhenViewWillLayoutSubviews {
             bar.frame.size = navigationBar.frame.size
-        }
-        else {
+        } else {
             bar.frame = navigationBar.frame
-            guard #available(iOS 11.0, *) else { return }
-            if bar.prefersLargeTitles {
-                bar.frame.origin.y = UIApplication.shared.statusBarFrame.maxY
+            if #available(iOS 11.0, *) {
+                if bar.prefersLargeTitles {
+                    bar.frame.origin.y = UIApplication.shared.statusBarFrame.maxY
+                }
             }
         }
+        bar.frame.size.height = navigationBar.frame.height + bar.extraHeight
     }
 }

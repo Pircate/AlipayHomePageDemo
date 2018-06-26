@@ -116,8 +116,20 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
+    func leftView(_ leftView: UIView?) -> Chain {
+        base.leftView = leftView
+        return self
+    }
+    
+    @discardableResult
     func leftViewMode(_ leftViewMode: UITextFieldViewMode) -> Chain {
         base.leftViewMode = leftViewMode
+        return self
+    }
+    
+    @discardableResult
+    func rightView(_ rightView: UIView?) -> Chain {
+        base.rightView = rightView
         return self
     }
     

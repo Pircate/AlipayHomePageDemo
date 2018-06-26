@@ -56,6 +56,30 @@ public extension Chain where Base: UITableView {
     }
     
     @discardableResult
+    func sectionIndexColor(_ sectionIndexColor: UIColor?) -> Chain {
+        base.sectionIndexColor = sectionIndexColor
+        return self
+    }
+    
+    @discardableResult
+    func sectionIndexBackgroundColor(_ sectionIndexBackgroundColor: UIColor?) -> Chain {
+        base.sectionIndexBackgroundColor = sectionIndexBackgroundColor
+        return self
+    }
+    
+    @discardableResult
+    func sectionIndexTrackingBackgroundColor(_ sectionIndexTrackingBackgroundColor: UIColor?) -> Chain {
+        base.sectionIndexTrackingBackgroundColor = sectionIndexTrackingBackgroundColor
+        return self
+    }
+    
+    @discardableResult
+    func sectionIndexMinimumDisplayRowCount(_ sectionIndexMinimumDisplayRowCount: Int) -> Chain {
+        base.sectionIndexMinimumDisplayRowCount = sectionIndexMinimumDisplayRowCount
+        return self
+    }
+    
+    @discardableResult
     func separatorStyle(_ separatorStyle: UITableViewCellSeparatorStyle) -> Chain {
         base.separatorStyle = separatorStyle
         return self
@@ -68,6 +92,24 @@ public extension Chain where Base: UITableView {
     }
     
     @discardableResult
+    func separatorInset(_ separatorInset: UIEdgeInsets) -> Chain {
+        base.separatorInset = separatorInset
+        return self
+    }
+    
+    @discardableResult
+    func tableHeaderView(_ tableHeaderView: UIView?) -> Chain {
+        base.tableHeaderView = tableHeaderView
+        return self
+    }
+    
+    @discardableResult
+    func tableFooterView(_ tableFooterView: UIView?) -> Chain {
+        base.tableFooterView = tableFooterView
+        return self
+    }
+    
+    @discardableResult
     func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) -> Chain {
         base.register(nib, forCellReuseIdentifier: identifier)
         return self
@@ -76,6 +118,18 @@ public extension Chain where Base: UITableView {
     @discardableResult
     func register(_ cellClass: Swift.AnyClass?, forCellReuseIdentifier identifier: String) -> Chain {
         base.register(cellClass, forCellReuseIdentifier: identifier)
+        return self
+    }
+    
+    @discardableResult
+    func register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) -> Chain {
+        base.register(nib, forHeaderFooterViewReuseIdentifier: identifier)
+        return self
+    }
+    
+    @discardableResult
+    func register(_ aClass: Swift.AnyClass?, forHeaderFooterViewReuseIdentifier identifier: String) -> Chain {
+        base.register(aClass, forHeaderFooterViewReuseIdentifier: identifier)
         return self
     }
 }
