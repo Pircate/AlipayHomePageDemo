@@ -14,48 +14,6 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
-    func text(_ text: String?) -> Chain {
-        base.text = text
-        return self
-    }
-    
-    @discardableResult
-    func attributedText(_ attributedText: NSAttributedString?) -> Chain {
-        base.attributedText = attributedText
-        return self
-    }
-    
-    @discardableResult
-    func textColor(_ textColor: UIColor) -> Chain {
-        base.textColor = textColor
-        return self
-    }
-    
-    @discardableResult
-    func font(_ font: UIFont) -> Chain {
-        base.font = font
-        return self
-    }
-    
-    @discardableResult
-    func systemFont(ofSize fontSize: CGFloat) -> Chain {
-        base.font = UIFont.systemFont(ofSize: fontSize)
-        return self
-    }
-    
-    @discardableResult
-    func boldSystemFont(ofSize fontSize: CGFloat) -> Chain {
-        base.font = UIFont.boldSystemFont(ofSize: fontSize)
-        return self
-    }
-    
-    @discardableResult
-    func textAlignment(_ textAlignment: NSTextAlignment) -> Chain {
-        base.textAlignment = textAlignment
-        return self
-    }
-    
-    @discardableResult
     func placeholder(_ placeholder: String?) -> Chain {
         base.placeholder = placeholder
         return self
@@ -68,14 +26,18 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
-    func borderStyle(_ borderStyle: UITextBorderStyle) -> Chain {
+    func borderStyle(_ borderStyle: UITextField.BorderStyle) -> Chain {
         base.borderStyle = borderStyle
         return self
     }
     
     @discardableResult
     func defaultTextAttributes(_ defaultTextAttributes: [String: Any]) -> Chain {
+        #if swift(>=4.2)
+        base.defaultTextAttributes = convertToNSAttributedStringKeyDictionary(defaultTextAttributes)
+        #else
         base.defaultTextAttributes = defaultTextAttributes
+        #endif
         return self
     }
     
@@ -105,12 +67,16 @@ public extension Chain where Base: UITextField {
     
     @discardableResult
     func typingAttributes(_ typingAttributes: [String: Any]?) -> Chain {
+        #if swift(>=4.2)
+        base.typingAttributes = convertToOptionalNSAttributedStringKeyDictionary(typingAttributes)
+        #else
         base.typingAttributes = typingAttributes
+        #endif
         return self
     }
     
     @discardableResult
-    func clearButtonMode(_ clearButtonMode: UITextFieldViewMode) -> Chain {
+    func clearButtonMode(_ clearButtonMode: UITextField.ViewMode) -> Chain {
         base.clearButtonMode = clearButtonMode
         return self
     }
@@ -122,7 +88,7 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
-    func leftViewMode(_ leftViewMode: UITextFieldViewMode) -> Chain {
+    func leftViewMode(_ leftViewMode: UITextField.ViewMode) -> Chain {
         base.leftViewMode = leftViewMode
         return self
     }
@@ -134,7 +100,7 @@ public extension Chain where Base: UITextField {
     }
     
     @discardableResult
-    func rightViewMode(_ rightViewMode: UITextFieldViewMode) -> Chain {
+    func rightViewMode(_ rightViewMode: UITextField.ViewMode) -> Chain {
         base.rightViewMode = rightViewMode
         return self
     }
@@ -164,4 +130,20 @@ public extension Chain where Base: UITextField {
         }
         return self
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSAttributedStringKeyDictionary(_ input: [String: Any])
+    -> [NSAttributedString.Key: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in
+        (NSAttributedString.Key(rawValue: key), value)
+    })
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in
+        (NSAttributedString.Key(rawValue: key), value)
+    })
 }

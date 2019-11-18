@@ -38,7 +38,7 @@ public extension Chain where Base: UINavigationBar {
     }
     
     @discardableResult
-    func titleTextAttributes(_ titleTextAttributes: [NSAttributedStringKey : Any]?) -> Chain {
+    func titleTextAttributes(_ titleTextAttributes: [NSAttributedString.Key : Any]?) -> Chain {
         base.titleTextAttributes = titleTextAttributes
         return self
     }
@@ -52,7 +52,7 @@ public extension Chain where Base: UINavigationBar {
     }
     
     @discardableResult
-    func largeTitleTextAttributes(_ largeTitleTextAttributes: [NSAttributedStringKey : Any]?) -> Chain {
+    func largeTitleTextAttributes(_ largeTitleTextAttributes: [NSAttributedString.Key : Any]?) -> Chain {
         if #available(iOS 11.0, *) {
             base.largeTitleTextAttributes = largeTitleTextAttributes
         }

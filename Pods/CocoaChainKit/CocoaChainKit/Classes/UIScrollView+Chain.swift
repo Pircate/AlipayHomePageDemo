@@ -51,7 +51,7 @@ public extension Chain where Base: UIScrollView {
     
     @available(iOS 11.0, *)
     @discardableResult
-    func contentInsetAdjustmentBehavior(_ contentInsetAdjustmentBehavior: UIScrollViewContentInsetAdjustmentBehavior) -> Chain {
+    func contentInsetAdjustmentBehavior(_ contentInsetAdjustmentBehavior: UIScrollView.ContentInsetAdjustmentBehavior) -> Chain {
         base.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior
         return self
     }

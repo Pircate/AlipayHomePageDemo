@@ -8,33 +8,32 @@
 public extension Chain where Base: UIButton {
     
     @discardableResult
-    func title(_ title: String?, for state: UIControlState...) -> Chain {
-        state.forEach({ base.setTitle(title, for: $0) })
+    func title(_ title: String?, for state: UIControl.State...) -> Chain {
+        state.forEach { base.setTitle(title, for: $0) }
         return self
     }
     
     @discardableResult
-    func titleColor(_ color: UIColor?, for state: UIControlState...) -> Chain {
-        state.forEach({ base.setTitleColor(color, for: $0) })
+    func titleColor(_ color: UIColor?, for state: UIControl.State...) -> Chain {
+        state.forEach { base.setTitleColor(color, for: $0) }
         return self
     }
     
     @discardableResult
-    func image(_ image: UIImage?, for state: UIControlState...) -> Chain {
-        state.forEach({ base.setImage(image, for: $0) })
+    func image(_ image: UIImage?, for state: UIControl.State...) -> Chain {
+        state.forEach { base.setImage(image, for: $0) }
         return self
     }
     
     @discardableResult
-    func backgroundImage(_ image: UIImage?, for state: UIControlState...) -> Chain {
-        state.forEach({ base.setBackgroundImage(image, for: $0) })
-        
+    func backgroundImage(_ image: UIImage?, for state: UIControl.State...) -> Chain {
+        state.forEach { base.setBackgroundImage(image, for: $0) }
         return self
     }
     
     @discardableResult
-    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControlState...) -> Chain {
-        state.forEach({ base.setAttributedTitle(attributedTitle, for: $0) })
+    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControl.State...) -> Chain {
+        state.forEach { base.setAttributedTitle(attributedTitle, for: $0) }
         return self
     }
     
@@ -59,24 +58,6 @@ public extension Chain where Base: UIButton {
     @discardableResult
     func imageEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Chain {
         base.imageEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-        return self
-    }
-    
-    @discardableResult
-    func font(_ font: UIFont) -> Chain {
-        base.titleLabel?.font = font
-        return self
-    }
-    
-    @discardableResult
-    func systemFont(ofSize fontSize: CGFloat) -> Chain {
-        base.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-        return self
-    }
-    
-    @discardableResult
-    func boldSystemFont(ofSize fontSize: CGFloat) -> Chain {
-        base.titleLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
         return self
     }
 }

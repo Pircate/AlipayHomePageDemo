@@ -8,6 +8,12 @@
 public extension Chain where Base: UICollectionView {
     
     @discardableResult
+    func backgroundView(_ backgroundView: UIView?) -> Chain {
+        base.backgroundView = backgroundView
+        return self
+    }
+    
+    @discardableResult
     func dataSource(_ dataSource: UICollectionViewDataSource?) -> Chain {
         base.dataSource = dataSource
         return self
@@ -45,7 +51,7 @@ public extension Chain where Base: UICollectionView {
     func register(_ viewClass: Swift.AnyClass?,
                   forSectionHeaderWithReuseIdentifier identifier: String) -> Chain {
         base.register(viewClass,
-                      forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                       withReuseIdentifier: identifier)
         return self
     }
@@ -54,7 +60,7 @@ public extension Chain where Base: UICollectionView {
     func register(_ viewClass: Swift.AnyClass?,
                   forSectionFooterWithReuseIdentifier identifier: String) -> Chain {
         base.register(viewClass,
-                      forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                       withReuseIdentifier: identifier)
         return self
     }
@@ -71,7 +77,7 @@ public extension Chain where Base: UICollectionView {
     func register(_ nib: UINib?,
                   forSectionHeaderWithReuseIdentifier identifier: String) -> Chain {
         base.register(nib,
-                      forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                       withReuseIdentifier: identifier)
         return self
     }
@@ -80,7 +86,7 @@ public extension Chain where Base: UICollectionView {
     func register(_ nib: UINib?,
                   forSectionFooterWithReuseIdentifier identifier: String) -> Chain {
         base.register(nib,
-                      forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                       withReuseIdentifier: identifier)
         return self
     }

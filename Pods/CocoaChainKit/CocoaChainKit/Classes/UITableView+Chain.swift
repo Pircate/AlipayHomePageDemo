@@ -6,6 +6,12 @@
 //
 
 public extension Chain where Base: UITableView {
+    
+    @discardableResult
+    func backgroundView(_ backgroundView: UIView?) -> Chain {
+        base.backgroundView = backgroundView
+        return self
+    }
 
     @discardableResult
     func dataSource(_ dataSource: UITableViewDataSource?) -> Chain {
@@ -80,7 +86,7 @@ public extension Chain where Base: UITableView {
     }
     
     @discardableResult
-    func separatorStyle(_ separatorStyle: UITableViewCellSeparatorStyle) -> Chain {
+    func separatorStyle(_ separatorStyle: UITableViewCell.SeparatorStyle) -> Chain {
         base.separatorStyle = separatorStyle
         return self
     }
@@ -94,6 +100,12 @@ public extension Chain where Base: UITableView {
     @discardableResult
     func separatorInset(_ separatorInset: UIEdgeInsets) -> Chain {
         base.separatorInset = separatorInset
+        return self
+    }
+    
+    @discardableResult
+    func separatorInset(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Chain {
+        base.separatorInset = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
         return self
     }
     

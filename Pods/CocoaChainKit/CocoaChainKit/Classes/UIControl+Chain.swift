@@ -26,7 +26,7 @@ public extension Chain where Base: UIControl {
     }
     
     @discardableResult
-    func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents) -> Chain {
+    func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Chain {
         base.addTarget(target, action: action, for: controlEvents)
         return self
     }
