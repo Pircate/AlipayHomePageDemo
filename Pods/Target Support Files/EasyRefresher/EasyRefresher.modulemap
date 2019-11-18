@@ -1,0 +1,6 @@
+framework module EasyRefresher {
+  umbrella header "EasyRefresher-umbrella.h"
+
+  export *
+  module * { export * }
+}

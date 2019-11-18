@@ -1,0 +1,16 @@
+/* 
+  EasyRefresher.strings
+  Pods
+
+  Created by Pircate(swifter.dev@gmail.com) on 2019/5/16.
+  
+*/
+
+"pull_down_to_refresh" = "下拉可以刷新";
+"release_to_refresh" = "松开立即刷新";
+"loading" = "正在刷新数据中...";
+
+"tap_or_pull_up_to_load_more" = "点击或上拉加载更多";
+"pull_up_to_load_more" = "上拉可以加载更多";
+"release_to_load_more" = "松开立即加载更多";
+"no_more_data" = "没有更多数据";

@@ -1,0 +1,16 @@
+/* 
+  EasyRefresher.strings
+  Pods
+
+  Created by Pircate(swifter.dev@gmail.com) on 2019/5/16.
+  
+*/
+
+"pull_down_to_refresh" = "Pull down to refresh";
+"release_to_refresh" = "Release to refresh";
+"loading" = "Loading...";
+
+"tap_or_pull_up_to_load_more" = "Tap or pull up to load more";
+"pull_up_to_load_more" = "Pull up to load more";
+"release_to_load_more" = "Release to load more";
+"no_more_data" = "No more data";

@@ -8,7 +8,7 @@
 
 import UIKit
 import SafariServices
-import MJRefresh
+import EasyRefresher
 import CocoaChainKit
 
 var kScreenWidth = UIScreen.main.bounds.size.width
@@ -53,14 +53,19 @@ class HomeViewController: UIViewController {
         let frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - navigation.bar.frame.maxY)
         let tableView = UITableView(frame: frame, style: .plain).chain
             .dataSource(self)
-            .contentInset(top: collectionViewHeight, left: 0, bottom: 0, right: 0)
+            .contentInset(top: collectionViewHeight, left: 0, bottom: 49, right: 0)
             .register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
             .scrollIndicatorInsets(top: collectionViewHeight, left: 0, bottom: 0, right: 0).build
-        tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                tableView.mj_header.endRefreshing()
-            })
-        })
+        tableView.refresh.header.addRefreshClosure {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                tableView.refresh.header.endRefreshing()
+            }
+        }
+        tableView.refresh.footer.addRefreshClosure {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                tableView.refresh.footer.endRefreshing()
+            }
+        }
         return tableView
     }()
     
@@ -132,9 +137,7 @@ class HomeViewController: UIViewController {
                 collectionView.frame.origin.y = 0
                 headerView.contentView.alpha = 1
                 searchTextField.alpha = 1
-                navigation.item.rightBarButtonItems?.forEach({
-                    $0.tintColor = UIColor.white
-                })
+                navigation.item.rightBarButtonItems?.forEach { $0.tintColor = UIColor.white }
             }
         }
     }
@@ -142,11 +145,11 @@ class HomeViewController: UIViewController {
     // MARK: - private
     private func setupNavigationItem() {
         navigation.bar.chain.tintColor(UIColor.white).isTranslucent(false)
-        navigation.item.rightBarButtonItems = ["", ""].map({
+        navigation.item.rightBarButtonItems = ["", ""].map {
             UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
                 .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal, .highlighted)
                 .build
-        })
+        }
         
         updateNavigationItem(false)
     }
@@ -156,7 +159,7 @@ class HomeViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (make) in
             make.top.equalTo(navigation.bar.snp.bottom)
-            make.left.bottom.right.equalTo(view)
+            make.left.bottom.right.equalToSuperview()
         }
         
         scrollView.addSubview(tableView)
