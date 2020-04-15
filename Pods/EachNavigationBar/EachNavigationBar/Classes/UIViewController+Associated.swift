@@ -30,10 +30,7 @@ extension UINavigationController {
 extension UIViewController {
     
     var _navigationBar: EachNavigationBar {
-        if let bar = objc_getAssociatedObject(
-            self,
-            &AssociatedKeys.navigationBar)
-            as? EachNavigationBar {
+        if let bar = objc_getAssociatedObject(self, &AssociatedKeys.navigationBar) as? EachNavigationBar {
             return bar
         }
         
@@ -43,26 +40,27 @@ extension UIViewController {
             self,
             &AssociatedKeys.navigationBar,
             bar,
-            .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+        )
+        
         return bar
     }
     
     var _navigationItem: UINavigationItem {
-        if let item = objc_getAssociatedObject(
-            self,
-            &AssociatedKeys.navigationItem)
-            as? UINavigationItem {
+        if let item = objc_getAssociatedObject(self, &AssociatedKeys.navigationItem) as? UINavigationItem {
             return item
         }
         
-        let item = UINavigationItem()
+        let item = EachNavigationItem(viewController: self)
         item.copy(by: navigationItem)
         
         objc_setAssociatedObject(
             self,
             &AssociatedKeys.navigationItem,
             item,
-            .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+        )
+        
         return item
     }
 }

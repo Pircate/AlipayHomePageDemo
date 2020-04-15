@@ -56,6 +56,10 @@ tableView.refresh.header.beginRefreshing()
 
 ```swift
 tableView.refresh.header.setTitle("loading...", for: .refreshing)
+
+tableView.refresh.footer.setAttributedTitle(
+    NSAttributedString(string: "正在加载中", attributes: [.foregroundColor: UIColor.red]), for: .refreshing
+)
 ```
 
 * UIActivityIndicatorView Style
@@ -69,9 +73,8 @@ tableView.refresh.header.activityIndicatorStyle = .white
 ```swift
 tableView.refresh.footer.setTitle("No more data", for: .disabled)
 
-self.tableView.refresh.footer.disable()
-
-self.tableView.refresh.footer.enable()
+// End refreshing and set state to disabled
+self.tableView.refresh.footer.isEnabled = false
 ```
 
 * Custom State View

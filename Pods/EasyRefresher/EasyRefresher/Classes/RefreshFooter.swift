@@ -8,9 +8,9 @@
 
 open class RefreshFooter: RefreshComponent {
     
-    var isAutoRefresh: Bool { return false }
+    var isAutoRefresh: Bool { false }
     
-    override var arrowDirection: ArrowDirection { return .up }
+    override var arrowDirection: ArrowDirection { .up }
     
     private lazy var constraintOfTopAnchor: NSLayoutConstraint? = {
         guard let scrollView = scrollView, isDescendant(of: scrollView) else { return nil }
@@ -64,7 +64,7 @@ open class RefreshFooter: RefreshComponent {
         
         changeAlpha(by: -offset)
         
-        if isDisabled { return }
+        guard isEnabled else { return }
         
         if isAutoRefresh, scrollView.isDragging, offset > 0 {
             beginRefreshing()

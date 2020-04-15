@@ -8,10 +8,10 @@
 
 open class AutoRefreshFooter: RefreshFooter {
 
-    override var isAutoRefresh: Bool { return true }
+    override var isAutoRefresh: Bool { true }
 }
 
 open class AppearanceAutoRefreshFooter: AppearanceRefreshFooter {
     
-    override var isAutoRefresh: Bool { return true }
+    override var isAutoRefresh: Bool { true }
 }

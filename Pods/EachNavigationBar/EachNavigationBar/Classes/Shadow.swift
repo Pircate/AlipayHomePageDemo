@@ -20,7 +20,8 @@ public struct Shadow {
         opacity: Float = 0,
         offset: CGSize = CGSize(width: 0, height: -3),
         radius: CGFloat = 3,
-        path: CGPath? = nil) {
+        path: CGPath? = nil
+    ) {
         self.color = color
         self.opacity = opacity
         self.offset = offset
@@ -31,7 +32,7 @@ public struct Shadow {
 
 extension CALayer {
     
-    func set(_ shadow: Shadow) {
+    func apply(_ shadow: Shadow) {
         shadowColor = shadow.color
         shadowOpacity = shadow.opacity
         shadowOffset = shadow.offset

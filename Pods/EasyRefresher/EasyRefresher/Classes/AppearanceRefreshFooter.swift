@@ -9,12 +9,12 @@
 open class AppearanceRefreshFooter: RefreshFooter {
     
     public override var automaticallyChangeAlpha: Bool {
-        get { return false }
+        get { false }
         set {}
     }
     
     internal(set) public override var state: RefreshState {
-        get { return super.state }
+        get { super.state }
         set {
             guard newValue == .idle else {
                 super.state = newValue
@@ -50,7 +50,8 @@ extension AppearanceRefreshFooter {
     private func addTapGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(
             target: self,
-            action: #selector(tapGestureAction(sender:)))
+            action: #selector(tapGestureAction(sender:))
+        )
         addGestureRecognizer(tapGesture)
     }
     

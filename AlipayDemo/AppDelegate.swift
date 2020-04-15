@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = UINavigationController(rootViewController: HomeViewController())
         nav.navigation.configuration.isEnabled = true
         nav.navigation.configuration.barTintColor = UIColor(red: 0, green: 0.5059, blue: 0.9216, alpha: 1)
-        nav.navigation.configuration.shadowImage = UIImage()
+        nav.navigation.configuration.isShadowHidden = true
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         return true

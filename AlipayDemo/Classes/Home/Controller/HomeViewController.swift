@@ -16,18 +16,20 @@ var kScreenHeight = UIScreen.main.bounds.size.height
 
 class HomeViewController: UIViewController {
     
-    private let usualFeatures = [(name: "转账", icon: ""),
-                                 (name: "信用卡还款", icon: ""),
-                                 (name: "余额宝", icon: ""),
-                                 (name: "生活缴费", icon: ""),
-                                 (name: "我的快递", icon: ""),
-                                 (name: "天猫", icon: ""),
-                                 (name: "AA收款", icon: ""),
-                                 (name: "上银汇款", icon: ""),
-                                 (name: "爱心捐赠", icon: ""),
-                                 (name: "彩票", icon: ""),
-                                 (name: "游戏中心", icon: ""),
-                                 (name: "更多", icon: ""),]
+    private let usualFeatures = [
+        (name: "转账", icon: ""),
+        (name: "信用卡还款", icon: ""),
+        (name: "余额宝", icon: ""),
+        (name: "生活缴费", icon: ""),
+        (name: "我的快递", icon: ""),
+        (name: "天猫", icon: ""),
+        (name: "AA收款", icon: ""),
+        (name: "上银汇款", icon: ""),
+        (name: "爱心捐赠", icon: ""),
+        (name: "彩票", icon: ""),
+        (name: "游戏中心", icon: ""),
+        (name: "更多", icon: "")
+    ]
     
     private lazy var scrollView: UIScrollView = { UIScrollView() }()
     
@@ -128,9 +130,9 @@ class HomeViewController: UIViewController {
                 else {
                     updateNavigationItem(true)
                     let alpha =  (originY - height) / height
-                    navigation.item.leftBarButtonItems?.forEach({
+                    navigation.item.leftBarButtonItems?.forEach {
                         $0.tintColor = UIColor.white.withAlphaComponent(alpha)
-                    })
+                    }
                 }
             }
             else {
@@ -181,11 +183,12 @@ class HomeViewController: UIViewController {
     
     private func updateNavigationItem(_ flag: Bool) {
         if flag {
-            navigation.item.leftBarButtonItems = ["", "", "", ""].map({
-                UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil).chain
+            navigation.item.leftBarButtonItems = ["", "", "", ""].map {
+                UIBarButtonItem(title: $0, style: .plain, target: nil, action: nil)
+                    .chain
                     .titleTextAttributes([.font: UIFont.iconFont(ofSize: 20)], for: .normal, .highlighted)
                     .width(32).build
-            })
+            }
             navigation.item.titleView = nil
         } else {
             navigation.item.leftBarButtonItems = []
@@ -201,13 +204,20 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: HomeUsualFeatureCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! HomeUsualFeatureCell
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "cellId",
+            for: indexPath
+        ) as! HomeUsualFeatureCell
         cell.setupUsualFeatureInfo(info: usualFeatures[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "header",
+            for: indexPath
+        )
         header.addSubview(headerView)
         return header
     }

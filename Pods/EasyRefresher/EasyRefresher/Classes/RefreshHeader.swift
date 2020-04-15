@@ -48,7 +48,7 @@ open class RefreshHeader: RefreshComponent {
         
         changeAlpha(by: offset)
         
-        if isDisabled { return }
+        guard isEnabled else { return }
         
         switch offset {
         case 0...:

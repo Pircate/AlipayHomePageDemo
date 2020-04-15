@@ -65,6 +65,12 @@ nav.navigation.configuration.barTintColor = UIColor.red
 nav.navigation.configuration.shadowImage = UIImage(named: "shadow")
 
 nav.navigation.configuration.setBackgroundImage(UIImage(named: "nav"), for: .any, barMetrics: .default)
+
+nav.navigation.configuration.backItem = UINavigationController.Configuration.BackItem(style: .title("返回"))
+
+nav.navigation.configuration.prefersLargeTitles = true
+
+nav.navigation.configuration.largeTitle.displayMode = .always
 ```
 
 #### Each view controller
@@ -139,15 +145,12 @@ navigation.bar.shadow = Shadow(
 
 ##### LargeTitle(iOS 11.0+)
 
-UINavigationController
 ``` swift
 // enable
-nav.navigation.prefersLargeTitles()
-```
-UIViewController
-```swift
-// show or hide
 navigation.bar.prefersLargeTitles = true
+
+// display mode
+navigation.item.largeTitleDisplayMode = .always
 
 // alpha
 navigation.bar.setLargeTitleAlpha(0.5)

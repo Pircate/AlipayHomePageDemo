@@ -8,8 +8,9 @@
 
 open class RefreshComponent: UIView {
     
-    public var activityIndicatorStyle: UIActivityIndicatorView.Style = .gray {
-        didSet { activityIndicator.style = activityIndicatorStyle }
+    public var activityIndicatorStyle: UIActivityIndicatorView.Style {
+        get { activityIndicator.style }
+        set { activityIndicator.style = newValue }
     }
     
     public var automaticallyChangeAlpha: Bool = true
@@ -49,7 +50,7 @@ open class RefreshComponent: UIView {
         return scrollView.contentInset
     }()
     
-    var arrowDirection: ArrowDirection { return .down }
+    var arrowDirection: ArrowDirection { .down }
     
     let height: CGFloat = 54
     
@@ -73,7 +74,11 @@ open class RefreshComponent: UIView {
     }()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        UIActivityIndicatorView(style: activityIndicatorStyle)
+        if #available(iOS 13.0, *) {
+            return UIActivityIndicatorView(style: .medium)
+        } else {
+            return UIActivityIndicatorView(style: .gray)
+        }
     }()
     
     private lazy var stateLabel: UILabel = {
@@ -94,9 +99,8 @@ open class RefreshComponent: UIView {
     
     public init<T>(
         stateView: T,
-        refreshClosure: @escaping () -> Void)
-        where T: UIView, T: RefreshStateful
-    {
+        refreshClosure: @escaping () -> Void
+    ) where T: UIView, T: RefreshStateful {
         self.refreshClosure = refreshClosure
         
         super.init(frame: .zero)
@@ -240,7 +244,7 @@ extension RefreshComponent {
     }
     
     private func rotateArrow(for state: RefreshState) {
-        arrowImageView.isHidden = state == .idle || isRefreshing || isDisabled
+        arrowImageView.isHidden = state == .idle || isRefreshing || !isEnabled
         
         let transform: CGAffineTransform
         switch arrowDirection {
@@ -259,6 +263,7 @@ extension RefreshComponent {
             stateLabel.attributedText = attributedTitle
         } else if let title = title(for: state) {
             stateLabel.isHidden = false
+            stateLabel.attributedText = nil
             stateLabel.text = title
         } else {
             stateLabel.isHidden = true
@@ -267,6 +272,19 @@ extension RefreshComponent {
 }
 
 extension RefreshComponent: Refresher {
+    
+    public var isEnabled: Bool {
+        get { state != .disabled }
+        set {
+            if newValue {
+                guard state == .disabled else { return }
+                
+                state = .idle
+            } else {
+                endRefreshing(to: .disabled)
+            }
+        }
+    }
     
     public func addRefreshClosure(_ refreshClosure: @escaping () -> Void) {
         self.refreshClosure = refreshClosure
@@ -280,7 +298,7 @@ extension RefreshComponent: Refresher {
     public func beginRefreshing() {
         assert(isDescendantOfScrollView, "Please add refresher to UIScrollView before begin refreshing")
         
-        guard !isRefreshing, !isDisabled else { return }
+        guard !isRefreshing, isEnabled else { return }
         
         prepareForRefreshing()
         state = .refreshing
@@ -289,16 +307,6 @@ extension RefreshComponent: Refresher {
     
     public func endRefreshing() {
         endRefreshing(to: .idle)
-    }
-    
-    public func enable() {
-        guard isDisabled else { return }
-        
-        state = .idle
-    }
-    
-    public func disable() {
-        endRefreshing(to: .disabled)
     }
 }
 

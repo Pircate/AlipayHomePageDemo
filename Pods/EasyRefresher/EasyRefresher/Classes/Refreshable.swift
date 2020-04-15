@@ -20,7 +20,7 @@ public protocol Refreshable: class {
     
     var isRefreshing: Bool { get }
     
-    var isDisabled: Bool { get }
+    var isEnabled: Bool { get set }
     
     var refreshClosure: () -> Void { get set }
     
@@ -29,19 +29,11 @@ public protocol Refreshable: class {
     func beginRefreshing()
     
     func endRefreshing()
-    
-    func enable()
-    
-    func disable()
 }
 
 public extension Refreshable {
     
     var isRefreshing: Bool {
         return state == .refreshing
-    }
-    
-    var isDisabled: Bool {
-        return state == .disabled
     }
 }
