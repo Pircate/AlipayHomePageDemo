@@ -8,8 +8,12 @@
 
 extension String {
     
-    func localized(value: String? = nil, table: String = "Localizable") -> String {
-        guard let path = Bundle.current?.path(forResource: Language.current.rawValue, ofType: "lproj") else {
+    func localized(
+        _ language: Language = .current,
+        value: String? = nil,
+        table: String = "Localizable"
+    ) -> String {
+        guard let path = Bundle.current?.path(forResource: language.rawValue, ofType: "lproj") else {
             return self
         }
         
@@ -24,14 +28,15 @@ extension String {
 enum Language: String {
     case en
     case zhHans = "zh-Hans"
+    case zhHant = "zh-Hant"
     
-    static var current: Language {
-        guard let language = NSLocale.preferredLanguages.first else { return .en }
+    static let current: Language = {
+        guard let language = Locale.preferredLanguages.first else { return .en }
         
-        if language.contains(Language.zhHans.rawValue) { return .zhHans }
+        if language.contains("zh-HK") { return .zhHant }
         
-        return .en
-    }
+        return Language(rawValue: language) ?? .en
+    }()
 }
 
 private extension Bundle {

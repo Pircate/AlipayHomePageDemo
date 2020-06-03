@@ -6,9 +6,7 @@
 //  Copyright © 2019 Pircate. All rights reserved.
 //
 
-open class RefreshFooter: RefreshComponent {
-    
-    var isAutoRefresh: Bool { false }
+open class RefreshFooter: RefreshComponent, FooterRefresher {
     
     override var arrowDirection: ArrowDirection { .up }
     
@@ -20,6 +18,14 @@ open class RefreshFooter: RefreshComponent {
         
         return constraint
     }()
+    
+    open override func updateConstraints() {
+        super.updateConstraints()
+        
+        guard let scrollView = scrollView else { return }
+        
+        constraintOfTopAnchor?.constant = scrollView.contentSize.height
+    }
     
     override func prepare() {
         super.prepare()
@@ -66,43 +72,19 @@ open class RefreshFooter: RefreshComponent {
         
         guard isEnabled else { return }
         
-        if isAutoRefresh, scrollView.isDragging, offset > 0 {
+        if scrollView.isDragging, triggerAutoRefresh(by: offset) {
             beginRefreshing()
             return
         }
         
-        changeState(by: offset)
+        changeState(by: -offset)
     }
     
     override func scrollViewContentSizeDidChange(_ scrollView: UIScrollView) {
         super.scrollViewContentSizeDidChange(scrollView)
         
-        updateConstraintOfTopAnchorIfNeeded()
+        setNeedsUpdateConstraints()
     }
     
-    override func scrollViewPanGestureStateDidChange(_ scrollView: UIScrollView) {
-        guard !isAutoRefresh else { return }
-        
-        super.scrollViewPanGestureStateDidChange(scrollView)
-    }
-    
-    func changeState(by offset: CGFloat) {
-        switch -offset {
-        case 0...:
-            state = .idle
-        case -height..<0:
-            state = .pulling
-        default:
-            state = .willRefresh
-        }
-    }
-}
-
-extension RefreshFooter {
-    
-    private func updateConstraintOfTopAnchorIfNeeded() {
-        guard let scrollView = scrollView else { return }
-        
-        constraintOfTopAnchor?.constant = scrollView.contentSize.height
-    }
+    func triggerAutoRefresh(by offset: CGFloat) -> Bool { false }
 }

@@ -1,13 +1,13 @@
 PODS:
   - CocoaChainKit (0.7.0)
   - EachNavigationBar (1.14.4)
-  - EasyRefresher (0.9.2)
+  - EasyRefresher (1.1.1)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - CocoaChainKit (= 0.7.0)
   - EachNavigationBar (= 1.14.4)
-  - EasyRefresher (= 0.9.2)
+  - EasyRefresher (= 1.1.1)
   - SnapKit (= 5.0.1)
 
 SPEC REPOS:
@@ -20,9 +20,9 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   CocoaChainKit: 66c13211d6cc1d5e46192d1a354f733c69b35671
   EachNavigationBar: 9000bc381312c65a86ab1f6c31b526ea675411f6
-  EasyRefresher: aab060caeebac52503986c5595730fed3184bb36
+  EasyRefresher: 1893b4a1c83cdcb139c44aef0adc4f2ee1bd57da
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 5ef46e9fe1a7f9c9efdc1cd892ebdcb9265f4b5e
+PODFILE CHECKSUM: 6b34371520d9b9e8444c48d27120a7ad8d2986a1
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

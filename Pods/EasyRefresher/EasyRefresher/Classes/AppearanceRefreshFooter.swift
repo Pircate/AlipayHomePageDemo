@@ -10,7 +10,7 @@ open class AppearanceRefreshFooter: RefreshFooter {
     
     public override var automaticallyChangeAlpha: Bool {
         get { false }
-        set {}
+        set { fatalError("AppearanceRefreshFooter is always displayed, unsupport set this property.") }
     }
     
     internal(set) public override var state: RefreshState {
@@ -33,10 +33,16 @@ open class AppearanceRefreshFooter: RefreshFooter {
         setTitle("tap_or_pull_up_to_load_more".localized(), for: .pulling)
     }
     
+    override func add(to scrollView: UIScrollView) {
+        super.add(to: scrollView)
+        
+        willBeginRefreshing {}
+    }
+    
     override func didEndRefreshing(completion: @escaping () -> Void) { completion() }
     
     override func changeState(by offset: CGFloat) {
-        switch -offset {
+        switch offset {
         case ..<(-height):
             state = .willRefresh
         default:
@@ -45,9 +51,9 @@ open class AppearanceRefreshFooter: RefreshFooter {
     }
 }
 
-extension AppearanceRefreshFooter {
+private extension AppearanceRefreshFooter {
     
-    private func addTapGestureRecognizer() {
+    func addTapGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(tapGestureAction(sender:))
@@ -55,7 +61,7 @@ extension AppearanceRefreshFooter {
         addGestureRecognizer(tapGesture)
     }
     
-    @objc private func tapGestureAction(sender: UITapGestureRecognizer) {
+    @objc func tapGestureAction(sender: UITapGestureRecognizer) {
         beginRefreshing()
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Pircate. All rights reserved.
 //
 
-open class RefreshHeader: RefreshComponent {
+open class RefreshHeader: RefreshComponent, HeaderRefresher {
     
     override func add(to scrollView: UIScrollView) {
         super.add(to: scrollView)
@@ -50,13 +50,6 @@ open class RefreshHeader: RefreshComponent {
         
         guard isEnabled else { return }
         
-        switch offset {
-        case 0...:
-            state = .idle
-        case -height..<0:
-            state = .pulling
-        default:
-            state = .willRefresh
-        }
+        changeState(by: offset)
     }
 }

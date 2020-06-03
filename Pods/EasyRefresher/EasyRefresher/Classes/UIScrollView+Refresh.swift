@@ -11,11 +11,15 @@ import ObjectiveC
 
 public typealias Refresher = Refreshable & HasStateTitle & HasActivityIndicator & Displayable
 
+public protocol HeaderRefresher: Refresher {}
+
+public protocol FooterRefresher: Refresher {}
+
 extension UIScrollView {
     
-    var refresh_header: Refresher {
+    var refresh_header: HeaderRefresher {
         get {
-            if let obj = objcGetAssociatedObject(for: &AssociatedKeys.header) as? Refresher {
+            if let obj = objcGetAssociatedObject(for: &AssociatedKeys.header) as? HeaderRefresher {
                 return obj
             }
             
@@ -39,9 +43,9 @@ extension UIScrollView {
         }
     }
     
-    var refresh_footer: Refresher {
+    var refresh_footer: FooterRefresher {
         get {
-            if let obj = objcGetAssociatedObject(for: &AssociatedKeys.footer) as? Refresher {
+            if let obj = objcGetAssociatedObject(for: &AssociatedKeys.footer) as? FooterRefresher {
                 return obj
             }
             

@@ -8,5 +8,6 @@
 
 public protocol HasActivityIndicator {
     
+    /// The basic appearance of the refresher's activity indicator.
     var activityIndicatorStyle: UIActivityIndicatorView.Style { get set }
 }

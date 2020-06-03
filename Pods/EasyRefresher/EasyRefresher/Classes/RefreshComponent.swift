@@ -38,6 +38,8 @@ open class RefreshComponent: UIView {
         }
     }
     
+    public let height: CGFloat
+    
     public var refreshClosure: () -> Void
     
     weak var scrollView: UIScrollView? {
@@ -52,9 +54,9 @@ open class RefreshComponent: UIView {
     
     var arrowDirection: ArrowDirection { .down }
     
-    let height: CGFloat = 54
-    
     private var stateChanged: (RefreshState) -> Void = { _ in }
+    
+    private var offsetChanged: ((CGFloat) -> Void)?
     
     private var isEnding: Bool = false
     
@@ -70,6 +72,7 @@ open class RefreshComponent: UIView {
     private lazy var arrowImageView: UIImageView = {
         let arrowImageView = UIImageView(image: "refresh_arrow_down".bundleImage())
         arrowImageView.isHidden = true
+        arrowImageView.transform = arrowDirection.reversedTransform(when: false)
         return arrowImageView
     }()
     
@@ -88,7 +91,9 @@ open class RefreshComponent: UIView {
         return stateLabel
     }()
     
-    public init(refreshClosure: @escaping () -> Void) {
+    // MARK: - life cycle
+    public init(height: CGFloat = 54, refreshClosure: @escaping () -> Void) {
+        self.height = height
         self.refreshClosure = refreshClosure
         
         super.init(frame: CGRect.zero)
@@ -99,26 +104,33 @@ open class RefreshComponent: UIView {
     
     public init<T>(
         stateView: T,
+        height: CGFloat = 54,
         refreshClosure: @escaping () -> Void
     ) where T: UIView, T: RefreshStateful {
+        self.height = height
         self.refreshClosure = refreshClosure
         
         super.init(frame: .zero)
         
         prepare()
         
-        addSubview(stateView)
+        addStateView(stateView)
         
-        stateView.translatesAutoresizingMaskIntoConstraints = false
-        stateView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        stateView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        stateView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        stateView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        stateChanged = { [weak self] in
+            guard let self = self else { return }
+            
+            stateView.refresher(self, didChangeState: $0)
+        }
         
-        stateChanged = { stateView.refresher(self, didChangeState: $0) }
+        offsetChanged = { [weak self] in
+            guard let self = self else { return }
+            
+            stateView.refresher(self, didChangeOffset: $0)
+        }
     }
     
     public override init(frame: CGRect) {
+        self.height = 54
         self.refreshClosure = {}
         
         super.init(frame: frame)
@@ -128,6 +140,7 @@ open class RefreshComponent: UIView {
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        self.height = 54
         self.refreshClosure = {}
         
         super.init(coder: aDecoder)
@@ -136,6 +149,7 @@ open class RefreshComponent: UIView {
         prepare()
     }
     
+    // MARK: - override
     func add(to scrollView: UIScrollView) {
         guard !scrollView.subviews.contains(self) else { return }
         
@@ -145,6 +159,59 @@ open class RefreshComponent: UIView {
         leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func prepare() {
+        setTitle("loading".localized(), for: .refreshing)
+        setTitle("no_more_data".localized(), for: .disabled)
+    }
+    
+    func changeState(by offset: CGFloat) {
+        switch offset {
+        case 0...:
+            state = .idle
+        case -height..<0:
+            state = .pulling
+        default:
+            state = .willRefresh
+        }
+    }
+    
+    func willBeginRefreshing(completion: @escaping () -> Void) {}
+    
+    func didEndRefreshing(completion: @escaping () -> Void) {}
+    
+    func scrollViewContentOffsetDidChange(_ scrollView: UIScrollView) {}
+    
+    func scrollViewContentSizeDidChange(_ scrollView: UIScrollView) {}
+    
+    func scrollViewPanGestureStateDidChange(_ scrollView: UIScrollView) {
+        guard scrollView.panGestureRecognizer.state == .ended, state == .willRefresh else { return }
+        
+        beginRefreshing()
+    }
+}
+
+extension RefreshComponent {
+    
+    func changeAlpha(by offset: CGFloat) {
+        if offset < 0, offset >= -height {
+            offsetChanged?(-offset)
+        }
+        
+        guard automaticallyChangeAlpha else {
+            alpha = 1
+            return
+        }
+        
+        switch offset {
+        case 0...:
+            alpha = 0
+        case -height..<0:
+            alpha = -offset / height
+        default:
+            alpha = 1
+        }
     }
     
     func observe(_ scrollView: UIScrollView) {
@@ -167,28 +234,10 @@ open class RefreshComponent: UIView {
             }
         }
     }
-    
-    func prepare() {
-        setTitle("loading".localized(), for: .refreshing)
-        setTitle("no_more_data".localized(), for: .disabled)
-    }
-    
-    func willBeginRefreshing(completion: @escaping () -> Void) {}
-    
-    func didEndRefreshing(completion: @escaping () -> Void) {}
-    
-    func scrollViewContentOffsetDidChange(_ scrollView: UIScrollView) {}
-    
-    func scrollViewContentSizeDidChange(_ scrollView: UIScrollView) {}
-    
-    func scrollViewPanGestureStateDidChange(_ scrollView: UIScrollView) {
-        guard scrollView.panGestureRecognizer.state == .ended, state == .willRefresh else { return }
-        
-        beginRefreshing()
-    }
 }
 
-extension RefreshComponent {
+// MARK: - private
+private extension RefreshComponent {
     
     var isDescendantOfScrollView: Bool {
         guard let scrollView = scrollView else { return false }
@@ -196,23 +245,7 @@ extension RefreshComponent {
         return isDescendant(of: scrollView)
     }
     
-    func changeAlpha(by offset: CGFloat) {
-        guard automaticallyChangeAlpha else {
-            alpha = 1
-            return
-        }
-        
-        switch offset {
-        case 0...:
-            alpha = 0
-        case -height..<0:
-            alpha = -offset / height
-        default:
-            alpha = 1
-        }
-    }
-    
-    private func build() {
+    func build() {
         addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -220,7 +253,17 @@ extension RefreshComponent {
         stackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
-    private func prepareForRefreshing() {
+    func addStateView(_ stateView: UIView) {
+        addSubview(stateView)
+        
+        stateView.translatesAutoresizingMaskIntoConstraints = false
+        stateView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        stateView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        stateView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        stateView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+    
+    func prepareForRefreshing() {
         guard let scrollView = scrollView else { return }
         
         var contentInset = scrollView.contentInset
@@ -230,7 +273,7 @@ extension RefreshComponent {
         originalInset = contentInset
     }
     
-    private func endRefreshing(to state: RefreshState) {
+    func endRefreshing(to state: RefreshState) {
         assert(isDescendantOfScrollView, "Please add refresher to UIScrollView before end refreshing")
         
         guard isRefreshing, !isEnding else { return }
@@ -243,21 +286,15 @@ extension RefreshComponent {
         }
     }
     
-    private func rotateArrow(for state: RefreshState) {
+    func rotateArrow(for state: RefreshState) {
         arrowImageView.isHidden = state == .idle || isRefreshing || !isEnabled
         
-        let transform: CGAffineTransform
-        switch arrowDirection {
-        case .up:
-            transform = state == .willRefresh ? .identity : CGAffineTransform(rotationAngle: .pi)
-        case .down:
-            transform = state == .willRefresh ? CGAffineTransform(rotationAngle: .pi) : .identity
+        UIView.animate(withDuration: 0.25) {
+            self.arrowImageView.transform = self.arrowDirection.reversedTransform(when: state == .willRefresh)
         }
-        
-        UIView.animate(withDuration: 0.25) { self.arrowImageView.transform = transform }
     }
     
-    private func changeStateTitle(for state: RefreshState) {
+    func changeStateTitle(for state: RefreshState) {
         if let attributedTitle = attributedTitle(for: state) {
             stateLabel.isHidden = false
             stateLabel.attributedText = attributedTitle
@@ -271,6 +308,7 @@ extension RefreshComponent {
     }
 }
 
+// MARK: - Refresher
 extension RefreshComponent: Refresher {
     
     public var isEnabled: Bool {
@@ -315,5 +353,17 @@ extension RefreshComponent {
     enum ArrowDirection {
         case up
         case down
+    }
+}
+
+private extension RefreshComponent.ArrowDirection {
+    
+    func reversedTransform(when willRefresh: Bool) -> CGAffineTransform {
+        switch self {
+        case .up:
+            return willRefresh ? .identity : CGAffineTransform(rotationAngle: .pi)
+        case .down:
+            return willRefresh ? CGAffineTransform(rotationAngle: .pi) : .identity
+        }
     }
 }
